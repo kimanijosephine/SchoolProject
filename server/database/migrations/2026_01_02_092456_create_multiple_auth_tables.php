@@ -27,6 +27,7 @@ return new class extends Migration
         $table->string('course_id')->nullable();
         $table->string('year_of_study');
         $table->string('class_year');
+        $table->string('phone_number')->nullable();
         $table->string('email')->unique();
         $table->string('password');
         $table->foreignId('school_id')->constrained()->onDelete('cascade');

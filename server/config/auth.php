@@ -1,5 +1,10 @@
 <?php
 
+use App\Models\School;
+use App\Models\Schools;
+use App\Models\Sponsors;
+use App\Models\Students;
+
 return [
 
     /*
@@ -14,8 +19,8 @@ return [
     */
 
     'defaults' => [
-        'guard' => env('AUTH_GUARD', 'web'),
-        'passwords' => env('AUTH_PASSWORD_BROKER', 'users'),
+        'guard' => 'school',
+        'passwords' => 'schools',
     ],
 
     /*
@@ -36,11 +41,27 @@ return [
     */
 
     'guards' => [
+    // Keep the web guard for system tools, but your API uses these:
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
         ],
-    ],
+
+        'school' => [
+            'driver' => 'jwt',
+            'provider' => 'schools',
+        ],
+
+        'student' => [
+            'driver' => 'jwt',
+            'provider' => 'students',
+        ],
+
+        'sponsor' => [
+            'driver' => 'jwt',
+            'provider' => 'sponsors',
+        ],
+],
 
     /*
     |--------------------------------------------------------------------------
@@ -60,14 +81,26 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        // Point each provider to the correct Model you created
+        'schools' => [
             'driver' => 'eloquent',
-            'model' => env('AUTH_MODEL', App\Models\User::class),
+            'model' => Schools::class,
         ],
 
+        'students' => [
+            'driver' => 'eloquent',
+            'model' => Students::class,
+        ],
+
+        'sponsors' => [
+            'driver' => 'eloquent',
+            'model' => Sponsors::class,
+        ],
+
+        // Keeping the default user for system compatibility
         // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
+        //     'driver' => 'eloquent',
+        //     'model' => App\Models\User::class,
         // ],
     ],
 
@@ -91,9 +124,22 @@ return [
     */
 
     'passwords' => [
-        'users' => [
-            'provider' => 'users',
-            'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
+        // Configure reset tables for each role if needed
+        'schools' => [
+            'provider' => 'schools',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'students' => [
+            'provider' => 'students',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'sponsors' => [
+            'provider' => 'sponsors',
+            'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,
         ],
