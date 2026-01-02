@@ -8,11 +8,12 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import axios from 'axios'
+const API_URL = import.meta.env.VITE_API_URL;
 const serverResponse = ref('')
 
 const testServer = async () => {
   try {
-    const response = await axios.get('http://localhost:8000/api/status')
+    const response = await axios.get(`${API_URL}/status`)
     console.log('Server response:', response.data)
     serverResponse.value = response.data.status;
   } catch (error) {
