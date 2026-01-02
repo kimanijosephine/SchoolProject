@@ -14,7 +14,7 @@ const testServer = async () => {
   try {
     const response = await axios.get('http://localhost:8000/api/status')
     console.log('Server response:', response.data)
-    serverResponse.value = response.data.message;
+    serverResponse.value = response.data.status;
   } catch (error) {
     console.error('Error connecting to server:', error)
   }
