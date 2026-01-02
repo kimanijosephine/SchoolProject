@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>Checking server connection...</p>
-    <p v-if="serverResponse">Server Response: {{ serverResponse }}</p>
+    <p>Server Response: {{ serverResponse }}</p>
   </div>
 </template>
 
