@@ -28,14 +28,14 @@
         class="form-container sign-in-container absolute top-0 h-full transition-all duration-700 ease-in-out left-0 w-1/2 z-[2]">
         <form @submit.prevent="handleLogin"
           class="bg-white flex flex-col items-center justify-center h-full px-12 text-center">
-          <h1 class="text-2xl font-bold m-0">Sign in</h1>
-          <span class="text-sm text-gray-600 my-3">Access sponsor dashboard</span>
-          <input type="email" placeholder="Email"
-            class="bg-gray-100 border-none p-3 my-2 w-full rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
+          <h1 class="text-2xl font-bold m-0 text-blue-600">Sign in</h1>
+          <span class="text-sm text-blue-600 my-3">Access sponsor dashboard</span>
+          <input type="email" placeholder="Email" v-model="formData.email"
+            class="bg-gray-100 border-none p-3 my-2 w-full rounded-lg focus:ring-2 focus:ring-blue-400 outline-none text-blue-600"
             required />
           <input type="password" placeholder="Password"
-            class="bg-gray-100 border-none p-3 my-2 w-full rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
-            required />
+            class="bg-gray-100 border-none p-3 my-2 w-full rounded-lg focus:ring-2 focus:ring-blue-400 outline-none text-blue-600"
+            v-model="formData.password" required />
           <button type="submit"
             class="mt-4 rounded-full border border-blue-600 bg-blue-600 text-white text-xs font-bold py-3 px-11 uppercase tracking-wider transition-transform active:scale-95 hover:bg-blue-700">
             Sign In
@@ -88,7 +88,7 @@ const formData = reactive({
 });
 
 const handleRegister = () => {
-  console.log("Payload captured:", formData);
+  // console.log("Payload captured:", formData);
   // Example: axios.post('/api/register', formData)
   try {
     axios.post(serverUrl + '/register', formData)
@@ -102,7 +102,20 @@ const handleRegister = () => {
 };
 
 const handleLogin = () => {
-  console.log("Login logic here");
+  console.log("Login logic here, formData:", formData);
+  try {
+    axios.post(serverUrl + '/login', {
+      email: formData.email,
+      password: formData.password,
+      role: "sponsor"
+    })
+      .then(response => {
+        console.log("Login Successfull:", response.data);
+      })
+  }
+  catch (error) {
+    console.error("Login Failed:", error);
+  }
 };
 </script>
 
