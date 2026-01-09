@@ -29,6 +29,7 @@ const router = createRouter({
       name: 'student-auth',
       component: StudentLogin,
     },
+
     // testing route
     {
       path: '/test',
