@@ -6,19 +6,21 @@
         class="form-container sign-up-container absolute top-0 h-full transition-all duration-700 ease-in-out left-0 w-1/2 opacity-0 z-[1]">
         <form @submit.prevent="handleRegister"
           class="bg-white flex flex-col items-center justify-center h-full px-12 text-center">
-          <h1 class="text-2xl font-bold m-0">Create Account</h1>
-          <span class="text-sm text-gray-600 my-3">Register as a Sponsor</span>
+          <h1 class="text-2xl font-bold m-0 py-2 text-blue-600">Create Account</h1>
+          <span class="text-sm text-gray-600 my-3 py-2 text-blue-600" style="color: #2563eb;">Register as a
+            Sponsor</span>
           <input v-model="formData.company_name" type="text" placeholder="Company Name"
-            class="bg-gray-100 border-none p-3 my-2 w-full rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
+            class="bg-gray-100 border-none p-3 m-2 w-full rounded-lg focus:ring-2 focus:ring-blue-400 outline-none text-gray-600"
             required />
           <input v-model="formData.email" type="email" placeholder="Email"
-            class="bg-gray-100 border-none p-3 my-2 w-full rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
-            required />
+            class="bg-gray-100 border-none p-3 m-2 w-full rounded-lg focus:ring-2 focus:ring-blue-400 outline-none text-gray-600"
+            required style="margin: 20px" />
           <input v-model="formData.password" type="password" placeholder="Password"
-            class="bg-gray-100 border-none p-3 my-2 w-full rounded-lg focus:ring-2 focus:ring-blue-400 outline-none"
+            class="bg-gray-100 border-none p-3 m-2 w-full rounded-lg focus:ring-2 focus:ring-blue-400 outline-none text-gray-600"
             required />
           <button type="submit"
-            class="mt-4 rounded-full border border-blue-600 bg-blue-600 text-white text-xs font-bold py-3 px-11 uppercase tracking-wider transition-transform active:scale-95 hover:bg-blue-700">
+            class="rounded-full border border-blue-600 bg-blue-600 text-white text-xs font-bold py-3 px-11 uppercase tracking-wider transition-transform active:scale-95 hover:bg-blue-700"
+            style="margin: 20px">
             Sign Up
           </button>
         </form>
@@ -28,14 +30,14 @@
         class="form-container sign-in-container absolute top-0 h-full transition-all duration-700 ease-in-out left-0 w-1/2 z-[2]">
         <form @submit.prevent="handleLogin"
           class="bg-white flex flex-col items-center justify-center h-full px-12 text-center">
-          <h1 class="text-2xl font-bold m-0 text-blue-600">Sign in</h1>
-          <span class="text-sm text-blue-600 my-3">Access sponsor dashboard</span>
+          <h1 class="text-2xl font-bold m-0 text-blue-600 py-2">Sign in</h1>
+          <span class="text-sm text-blue-600 my-3 py-2">Access sponsor dashboard</span>
           <input type="email" placeholder="Email" v-model="formData.email"
-            class="bg-gray-100 border-none p-3 my-2 w-full rounded-lg focus:ring-2 focus:ring-blue-400 outline-none text-blue-600"
+            class="bg-gray-100 border-none p-3 my-2 w-full rounded-lg focus:ring-2 focus:ring-blue-400 outline-none text-gray-600 m-5"
             required />
           <input type="password" placeholder="Password"
-            class="bg-gray-100 border-none p-3 my-2 w-full rounded-lg focus:ring-2 focus:ring-blue-400 outline-none text-blue-600"
-            v-model="formData.password" required />
+            class="bg-gray-100 border-none p-3 my-2 w-full rounded-lg focus:ring-2 focus:ring-blue-400 outline-none text-gray-600"
+            v-model="formData.password" required style="margin: 20px" />
           <button type="submit"
             class="mt-4 rounded-full border border-blue-600 bg-blue-600 text-white text-xs font-bold py-3 px-11 uppercase tracking-wider transition-transform active:scale-95 hover:bg-blue-700">
             Sign In
@@ -48,8 +50,8 @@
         <div
           class="overlay bg-gradient-to-r from-blue-500 to-indigo-600 text-white relative -left-full h-full w-[200%] transform translate-x-0 transition-transform duration-700 ease-in-out">
 
-          <div
-            class="overlay-panel overlay-left absolute flex flex-col items-center justify-center h-full w-1/2 px-10 text-center top-0 transform -translate-x-[20%] transition-transform duration-700 ease-in-out">
+          <div :class="['overlay-panel overlay-left absolute flex flex-col items-center justify-center h-full w-1/2 px-10 text-center top-0 transition-transform duration-700 ease-in-out',
+            isSignUp ? 'transform translate-x-0' : 'transform -translate-x-[20%]']">
             <h1 class="text-2xl font-bold text-white">Welcome Back!</h1>
             <p class="text-sm my-5">Keep connected with us by logging in with your sponsor info</p>
             <button @click="isSignUp = false"
@@ -141,11 +143,15 @@ const handleLogin = () => {
 }
 
 #container.right-panel-active .overlay-left {
-  transform: translateX(0);
+  transform: translateX(0) !important;
 }
 
 #container.right-panel-active .overlay-right {
-  transform: translateX(20%);
+  transform: translateX(20%) !important;
+}
+
+.overlay-left {
+  transform: translateX(-20%);
 }
 
 @keyframes show {
