@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import TestView from '@/views/TestView.vue'
-import SchoolLogin from '@/views/LoginVue/SchoolLogin.vue'
-import DonorLogin from '@/views/LoginVue/DonorLogin.vue'
-import StudentLogin from '@/views/LoginVue/StudentLogin.vue'
+import SchoolLogin from '@/views/AuthVue/SchoolLogin.vue'
+import DonorLogin from '@/views/AuthVue/DonorLogin.vue'
+import StudentLogin from '@/views/AuthVue/StudentLogin.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -12,11 +12,7 @@ const router = createRouter({
       name: 'home',
       component: HomeView,
     },
-    {
-      path: '/test',
-      name: 'test',
-      component: TestView,
-    },
+
     // Auth vue for different user types
     {
       path: '/school-auth',
@@ -32,6 +28,12 @@ const router = createRouter({
       path: '/student-auth',
       name: 'student-auth',
       component: StudentLogin,
+    },
+    // testing route
+    {
+      path: '/test',
+      name: 'test',
+      component: TestView,
     },
   ],
 })
