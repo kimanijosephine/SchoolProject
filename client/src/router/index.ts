@@ -17,20 +17,20 @@ const router = createRouter({
       name: 'test',
       component: TestView,
     },
-    // Login vue for different user types
+    // Auth vue for different user types
     {
-      path: '/school-login',
-      name: 'school-login',
+      path: '/school-auth',
+      name: 'school-auth',
       component: SchoolLogin,
     },
     {
-      path: '/donor-login',
-      name: 'donor-login',
+      path: '/donor-auth',
+      name: 'donor-auth',
       component: DonorLogin,
     },
     {
-      path: '/student-login',
-      name: 'student-login',
+      path: '/student-auth',
+      name: 'student-auth',
       component: StudentLogin,
     },
   ],
