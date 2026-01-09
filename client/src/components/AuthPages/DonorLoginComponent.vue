@@ -76,11 +76,12 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
-
+import axios from 'axios';
+const serverUrl = import.meta.env.VITE_API_URL;
 const isSignUp = ref(false);
 
 const formData = reactive({
-  role: "sponsor", // Automatically set to sponsor
+  role: "sponsor",
   company_name: "",
   email: "",
   password: ""
@@ -89,6 +90,15 @@ const formData = reactive({
 const handleRegister = () => {
   console.log("Payload captured:", formData);
   // Example: axios.post('/api/register', formData)
+  try {
+    axios.post(serverUrl + '/register', formData)
+      .then(response => {
+        console.log("Redistration successful:", response.data);
+      })
+  }
+  catch (error) {
+    console.error("registration failed:", error);
+  }
 };
 
 const handleLogin = () => {
