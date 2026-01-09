@@ -48,7 +48,8 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue';
-
+const serverUrl = import.meta.env.VITE_API_URL
+import axios from 'axios';
 // Only login data needed for students
 const loginData = reactive({
   role: "student",
@@ -58,7 +59,20 @@ const loginData = reactive({
 
 const handleLogin = () => {
   console.log("Student Login Attempt:", loginData);
-  // Example: authStore.login(loginData)
+  try {
+    axios.post(serverUrl + '/login', {
+      email: loginData.email,
+      password: loginData.password,
+      role: "student"
+    })
+      .then(response => {
+        console.log("Login Successful:", response.data);
+      })
+
+  }
+  catch (error) {
+    console.error("Login Error:", error);
+  }
 };
 </script>
 
