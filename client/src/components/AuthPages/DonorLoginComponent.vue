@@ -97,31 +97,31 @@ const handleLogin = () => {
 </script>
 
 <style scoped>
-/* Custom animations for the sliding mechanism */
-.container.right-panel-active .sign-in-container {
+/* Use :class logic on the host element */
+#container.right-panel-active .sign-in-container {
   transform: translateX(100%);
 }
 
-.container.right-panel-active .sign-up-container {
+#container.right-panel-active .sign-up-container {
   transform: translateX(100%);
   opacity: 1;
   z-index: 5;
   animation: show 0.6s;
 }
 
-.container.right-panel-active .overlay-container {
+#container.right-panel-active .overlay-container {
   transform: translateX(-100%);
 }
 
-.container.right-panel-active .overlay {
+#container.right-panel-active .overlay {
   transform: translateX(50%);
 }
 
-.container.right-panel-active .overlay-left {
+#container.right-panel-active .overlay-left {
   transform: translateX(0);
 }
 
-.container.right-panel-active .overlay-right {
+#container.right-panel-active .overlay-right {
   transform: translateX(20%);
 }
 
