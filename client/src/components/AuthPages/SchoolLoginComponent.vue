@@ -6,10 +6,10 @@
         class="form-container sign-up-container absolute top-0 h-full transition-all duration-700 ease-in-out left-0 w-1/2 opacity-0 z-[1]">
         <form @submit.prevent="handleRegister"
           class="bg-white flex flex-col items-center justify-center h-full px-12 text-center">
-          <h1 class="text-2xl font-bold m-0 py-2 text-blue-600">Create Account</h1>
-          <span class="text-sm text-gray-600 my-3 py-2 text-blue-600" style="color: #2563eb;">Register as a
-            Sponsor</span>
-          <input v-model="formData.company_name" type="text" placeholder="Company Name"
+          <h1 class="text-2xl font-bold m-0 py-2 text-blue-600">Create A School Account</h1>
+          <span class="text-sm text-gray-600 my-3 py-2 text-blue-600" style="color: #2563eb;">Register a
+            School</span>
+          <input v-model="formData.name" type="text" placeholder="School Name"
             class="bg-gray-100 border-none p-3 m-2 w-full rounded-lg focus:ring-2 focus:ring-blue-400 outline-none text-gray-600"
             required />
           <input v-model="formData.email" type="email" placeholder="Email"
@@ -31,7 +31,7 @@
         <form @submit.prevent="handleLogin"
           class="bg-white flex flex-col items-center justify-center h-full px-12 text-center">
           <h1 class="text-2xl font-bold m-0 text-blue-600 py-2">Sign in</h1>
-          <span class="text-sm text-blue-600 my-3 py-2">Access sponsor dashboard</span>
+          <span class="text-sm text-blue-600 my-3 py-2">Access School dashboard</span>
           <input type="email" placeholder="Email" v-model="formData.email"
             class="bg-gray-100 border-none p-3 my-2 w-full rounded-lg focus:ring-2 focus:ring-blue-400 outline-none text-gray-600 m-5"
             required />
@@ -53,7 +53,7 @@
           <div :class="['overlay-panel overlay-left absolute flex flex-col items-center justify-center h-full w-1/2 px-10 text-center top-0 transition-transform duration-700 ease-in-out',
             isSignUp ? 'transform translate-x-0' : 'transform -translate-x-[20%]']">
             <h1 class="text-2xl font-bold text-white">Welcome Back!</h1>
-            <p class="text-sm my-5">Keep connected with us by logging in with your sponsor info</p>
+            <p class="text-sm my-5">Keep connected with us by logging in with your School info</p>
             <button @click="isSignUp = false"
               class="rounded-full border border-white bg-transparent text-white text-xs font-bold py-3 px-11 uppercase tracking-wider transition-transform active:scale-95">
               Sign In
@@ -62,8 +62,8 @@
 
           <div
             class="overlay-panel overlay-right absolute flex flex-col items-center justify-center h-full w-1/2 px-10 text-center top-0 right-0 transform translate-x-0 transition-transform duration-700 ease-in-out">
-            <h1 class="text-2xl font-bold text-white">Hello, Sponsor!</h1>
-            <p class="text-sm my-5">Register your company details and start sponsoring projects</p>
+            <h1 class="text-2xl font-bold text-white">Hi!</h1>
+            <p class="text-sm my-5">Register your School details</p>
             <button @click="isSignUp = true"
               class="rounded-full border border-white bg-transparent text-white text-xs font-bold py-3 px-11 uppercase tracking-wider transition-transform active:scale-95">
               Sign Up
@@ -83,8 +83,8 @@ const serverUrl = import.meta.env.VITE_API_URL;
 const isSignUp = ref(false);
 
 const formData = reactive({
-  role: "sponsor",
-  company_name: "",
+  role: "school",
+  name: "",
   email: "",
   password: ""
 });
@@ -109,7 +109,7 @@ const handleLogin = () => {
     axios.post(serverUrl + '/login', {
       email: formData.email,
       password: formData.password,
-      role: "sponsor"
+      role: "school"
     })
       .then(response => {
         console.log("Login Successfull:", response.data);
