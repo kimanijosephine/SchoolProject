@@ -4,6 +4,7 @@ import TestView from '@/views/TestView.vue'
 import SchoolLogin from '@/views/AuthVue/SchoolLogin.vue'
 import DonorLogin from '@/views/AuthVue/DonorLogin.vue'
 import StudentLogin from '@/views/AuthVue/StudentLogin.vue'
+import SchoolDashboard from '@/views/SchoolDashboard.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -28,6 +29,13 @@ const router = createRouter({
       path: '/student-auth',
       name: 'student-auth',
       component: StudentLogin,
+    },
+
+    // Dashboard routes
+    {
+      path: '/school-dashboard',
+      name: 'school-dashboard',
+      component: SchoolDashboard,
     },
 
     // testing route
