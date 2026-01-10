@@ -50,7 +50,7 @@
 import { reactive } from 'vue';
 const serverUrl = import.meta.env.VITE_API_URL
 import axios from 'axios';
-// Only login data needed for students
+// student data
 const loginData = reactive({
   role: "student",
   email: "",
