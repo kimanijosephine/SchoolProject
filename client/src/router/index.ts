@@ -5,6 +5,7 @@ import SchoolLogin from '@/views/AuthVue/SchoolLogin.vue'
 import DonorLogin from '@/views/AuthVue/DonorLogin.vue'
 import StudentLogin from '@/views/AuthVue/StudentLogin.vue'
 import SchoolDashboard from '@/views/SchoolDashboard.vue'
+import DonorDashboard from '@/views/DonorDashboard.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -31,11 +32,16 @@ const router = createRouter({
       component: StudentLogin,
     },
 
-    // Dashboard routes
+    // Dashboard routes pending authentication implementation
     {
       path: '/school-dashboard',
       name: 'school-dashboard',
       component: SchoolDashboard,
+    },
+    {
+      path: '/donor-dashboard',
+      name: 'donor-dashboard',
+      component: DonorDashboard,
     },
 
     // testing route
