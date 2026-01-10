@@ -78,8 +78,11 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
-import axios from 'axios';
-const serverUrl = import.meta.env.VITE_API_URL;
+import { useAuthStore } from '@/stores/auth';
+import { useRouter } from 'vue-router';
+
+const authStore = useAuthStore();
+const router = useRouter();
 const isSignUp = ref(false);
 
 const formData = reactive({
@@ -89,34 +92,27 @@ const formData = reactive({
   password: ""
 });
 
-const handleRegister = () => {
-  // console.log("Payload captured:", formData);
-  // Example: axios.post('/api/register', formData)
+const handleRegister = async () => {
   try {
-    axios.post(serverUrl + '/register', formData)
-      .then(response => {
-        console.log("Redistration successful:", response.data);
-      })
-  }
-  catch (error) {
-    console.error("registration failed:", error);
+    await authStore.register(formData);
+    console.log("Sponsor Registration successful");
+    router.push('/sponsor-dashboard');
+  } catch (error) {
+    console.error("Sponsor registration failed:", error);
   }
 };
 
-const handleLogin = () => {
-  console.log("Login logic here, formData:", formData);
+const handleLogin = async () => {
   try {
-    axios.post(serverUrl + '/login', {
+    await authStore.login({
       email: formData.email,
       password: formData.password,
       role: "sponsor"
-    })
-      .then(response => {
-        console.log("Login Successfull:", response.data);
-      })
-  }
-  catch (error) {
-    console.error("Login Failed:", error);
+    });
+    console.log("Sponsor Login Successful");
+    router.push('/sponsor-dashboard');
+  } catch (error) {
+    console.error("Sponsor Login Failed:", error);
   }
 };
 </script>
