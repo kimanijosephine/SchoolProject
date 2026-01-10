@@ -3,6 +3,7 @@ export interface schoolFormData {
   name?: string
   email: string
   password: string
+  company_name?: string
 }
 export interface donorFormData {
   role: string
@@ -12,8 +13,9 @@ export interface donorFormData {
 }
 
 export interface User {
-  name: string
+  name?: string
   email: string
+  company_name?: string
 }
 
 export interface AuthResponse {
@@ -21,5 +23,5 @@ export interface AuthResponse {
   token_type: string
   expires_in: number
   user: User
-  role: string
+  role: 'school' | 'sponsor' | 'student' | 'admin'
 }

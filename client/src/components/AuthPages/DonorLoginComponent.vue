@@ -90,8 +90,7 @@ const formData = reactive({
 });
 
 const handleRegister = () => {
-  // console.log("Payload captured:", formData);
-  // Example: axios.post('/api/register', formData)
+
   try {
     axios.post(serverUrl + '/register', formData)
       .then(response => {
