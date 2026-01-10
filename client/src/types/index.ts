@@ -1,15 +1,9 @@
-export interface schoolFormData {
+export interface AuthFormData {
   role: string
+  email: string
+  password: string
   name?: string
-  email: string
-  password: string
   company_name?: string
-}
-export interface donorFormData {
-  role: string
-  company_name?: string
-  email: string
-  password: string
 }
 
 export interface User {

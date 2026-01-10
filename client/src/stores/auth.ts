@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
-import type { schoolFormData, AuthResponse, User } from '@/types'
+import type { AuthFormData, AuthResponse, User } from '@/types'
+
 const serverUrl = import.meta.env.VITE_API_URL
 
 export const useAuthStore = defineStore('auth', {
@@ -12,10 +13,10 @@ export const useAuthStore = defineStore('auth', {
 
   getters: {
     isAuthenticated: (state) => !!state.token,
+    getUserName: (state) => state.user?.name || state.user?.company_name || 'User',
   },
 
   actions: {
-    // Helper to save data to state and localStorage
     setUserData(data: AuthResponse) {
       this.user = data.user
       this.token = data.access_token
@@ -25,28 +26,19 @@ export const useAuthStore = defineStore('auth', {
       localStorage.setItem('user', JSON.stringify(data.user))
       localStorage.setItem('role', data.role)
 
-      // Set default axios header for future requests
       axios.defaults.headers.common['Authorization'] = `Bearer ${data.access_token}`
     },
 
-    async register(formData: schoolFormData) {
-      try {
-        const response = await axios.post(`${serverUrl}/register`, formData)
-        this.setUserData(response.data)
-        return response.data
-      } catch (error) {
-        throw error
-      }
+    async register(formData: AuthFormData) {
+      const response = await axios.post<AuthResponse>(`${serverUrl}/register`, formData)
+      this.setUserData(response.data)
+      return response.data
     },
 
-    async login(credentials: schoolFormData) {
-      try {
-        const response = await axios.post(`${serverUrl}/login`, credentials)
-        this.setUserData(response.data)
-        return response.data
-      } catch (error) {
-        throw error
-      }
+    async login(credentials: Partial<AuthFormData>) {
+      const response = await axios.post<AuthResponse>(`${serverUrl}/login`, credentials)
+      this.setUserData(response.data)
+      return response.data
     },
 
     logout() {
