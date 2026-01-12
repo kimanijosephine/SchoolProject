@@ -5,8 +5,11 @@ import TestView from '@/views/TestView.vue'
 import SchoolLogin from '@/views/AuthVue/SchoolLogin.vue'
 import DonorLogin from '@/views/AuthVue/DonorLogin.vue'
 import StudentLogin from '@/views/AuthVue/StudentLogin.vue'
-import SchoolDashboard from '@/views/SchoolDashboard.vue'
+// import SchoolDashboard from '@/views/SchoolDashboard.vue'
 import DonorDashboard from '@/views/DonorDashboard.vue'
+import SchoolDashboard from '@/views/SchoolVue/DashboardView.vue'
+import AdminStudentsView from '@/views/SchoolVue/StudentsView.vue'
+import UploadsView from '@/views/SchoolVue/UploadsView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -40,6 +43,19 @@ const router = createRouter({
       component: SchoolDashboard,
       meta: { requiresAuth: true, role: 'school' },
     },
+    {
+      path: '/school-dashboard/students',
+      name: 'school-dashboard-students',
+      component: AdminStudentsView,
+      meta: { requiresAuth: true, role: 'school' },
+    },
+    {
+      path: '/school-dashboard/uploads',
+      name: 'school-dashboard-uploads',
+      component: UploadsView,
+      meta: { requiresAuth: true, role: 'school' },
+    },
+
     {
       path: '/donor-dashboard',
       name: 'donor-dashboard',

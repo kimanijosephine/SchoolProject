@@ -8,10 +8,10 @@
         <router-link to="/school-dashboard" class="block p-2 rounded hover:bg-blue-800">
           Dashboard
         </router-link>
-        <router-link to="/students" class="block p-2 rounded hover:bg-blue-800">
+        <router-link to="/school-dashboard/students" class="block p-2 rounded hover:bg-blue-800">
           Manage Students
         </router-link>
-        <router-link to="/uploads" class="block p-2 rounded hover:bg-blue-800">
+        <router-link to="/school-dashboard/uploads" class="block p-2 rounded hover:bg-blue-800">
           Batch Uploads (CSV)
         </router-link>
       </nav>
