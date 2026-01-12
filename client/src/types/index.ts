@@ -30,4 +30,5 @@ export interface Student {
   email: string
   school_id: string
   status: 'active' | 'suspended' | 'expelled'
+  marks?: Record<string, number>
 }

@@ -1,17 +1,8 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import { useAuthStore } from './auth'
-
+import type { Student } from '@/types'
 const serverUrl = import.meta.env.VITE_API_URL
-
-export interface Student {
-  id: number
-  name: string
-  registration_number: string
-  year: number
-  status: 'active' | 'suspended' | 'expelled'
-  marks?: Record<string, number>
-}
 
 export const useSchoolStore = defineStore('school', {
   state: () => ({
@@ -38,8 +29,8 @@ export const useSchoolStore = defineStore('school', {
       try {
         const response = await axios.get(`${serverUrl}/dashboard/stats`)
         this.dashboardStats = response.data
-      } catch (err: any) {
-        this.error = err.message
+      } catch (error) {
+        this.error = error instanceof Error ? error.message : String(error)
       } finally {
         this.isLoading = false
       }
@@ -51,8 +42,8 @@ export const useSchoolStore = defineStore('school', {
         const params = year ? { year } : {}
         const response = await axios.get(`${serverUrl}/students`, { params })
         this.students = response.data
-      } catch (err: any) {
-        this.error = err.message
+      } catch (error) {
+        this.error = error instanceof Error ? error.message : String(error)
       } finally {
         this.isLoading = false
       }
@@ -74,8 +65,8 @@ export const useSchoolStore = defineStore('school', {
         })
         await this.fetchStudents() // Refresh list after upload
         return { success: true, message: 'File uploaded successfully' }
-      } catch (err: any) {
-        return { success: false, message: err.response?.data?.message || 'Upload failed' }
+      } catch (error) {
+        return { success: false, message: error instanceof Error ? error.message : 'Upload failed' }
       } finally {
         this.isLoading = false
       }
@@ -87,8 +78,8 @@ export const useSchoolStore = defineStore('school', {
         // Optimistically update the UI
         const student = this.students.find((s) => s.id === id)
         if (student) student.status = status
-      } catch (err: any) {
-        this.error = 'Failed to update status'
+      } catch (error) {
+        this.error = error instanceof Error ? error.message : String(error)
       }
     },
 

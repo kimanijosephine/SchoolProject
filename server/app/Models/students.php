@@ -10,7 +10,7 @@ class Students extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
-    protected $fillable = [ 'name', 'course_id', 'year_of_study', 'class_year', 'email', 'password', 'school_id', 'registration_number'];
+    protected $fillable = [ 'name', 'course_id', 'year_of_study', 'class_year', 'email', 'password', 'school_id', 'registration_number', 'status'];
     protected $hidded = ['password'];
 
     /**
