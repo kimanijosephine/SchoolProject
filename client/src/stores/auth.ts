@@ -53,8 +53,8 @@ export const useAuthStore = defineStore('auth', {
   },
 })
 
-// if the user refreshes the page then the headers are reapplied
-const authStore = useAuthStore()
-if (authStore.token) {
-  axios.defaults.headers.common['Authorization'] = `Bearer ${authStore.token}`
-}
+//if the user refreshes the page then the headers are reapplied
+// const authStore = useAuthStore()
+// if (authStore.token) {
+//   axios.defaults.headers.common['Authorization'] = `Bearer ${authStore.token}`
+// }
