@@ -36,12 +36,16 @@ class LoginController extends Controller
     }
 
     protected function respondWithToken($token, $role)
-    {
+    {   // retrieve user and hide sensitive fields
+        $user = Auth::guard($role)->user();
+        $user->makeHidden(['id', 'password', 'created_at', 'updated_at']);
+
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => Auth::guard($role)->factory()->getTTL() * 60,
-            'user' => Auth::guard($role)->user(),
+            'user' =>$user,
+            //'user' => Auth::guard($role)->user(),
             'role' => $role
         ]);
     }
