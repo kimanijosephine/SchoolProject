@@ -19,3 +19,16 @@ export interface AuthResponse {
   user: User
   role: 'school' | 'sponsor' | 'student' | 'admin'
 }
+
+export interface Student {
+  id: number
+  name: string
+  registration_number: string
+  course_id: string
+  year_of_study: number
+  class_year: number
+  email: string
+  school_id: string
+  status: 'active' | 'suspended' | 'expelled'
+  marks?: Record<string, number>
+}
