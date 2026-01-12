@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 import HomeView from '../views/HomeView.vue'
 import TestView from '@/views/TestView.vue'
 import SchoolLogin from '@/views/AuthVue/SchoolLogin.vue'
@@ -37,11 +38,13 @@ const router = createRouter({
       path: '/school-dashboard',
       name: 'school-dashboard',
       component: SchoolDashboard,
+      meta: { requiresAuth: true, role: 'school' },
     },
     {
       path: '/donor-dashboard',
       name: 'donor-dashboard',
       component: DonorDashboard,
+      meta: { requiresAuth: true, role: 'sponsor' },
     },
 
     // testing route
@@ -49,8 +52,38 @@ const router = createRouter({
       path: '/test',
       name: 'test',
       component: TestView,
+      meta: { requiresAuth: true, role: 'admin' },
     },
   ],
+})
+// Controll authorized access to routes
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore()
+
+  // 1. Check if route requires login
+  if (to.meta.requiresAuth) {
+    if (!authStore.isAuthenticated) {
+      // Not logged in? Redirect to home or a specific login
+      return next({ name: 'home' })
+    }
+
+    // 2. Check Role Authorization
+    if (to.meta.role && authStore.role !== to.meta.role) {
+      alert('Unauthorized access')
+      return next({ name: 'home' })
+    }
+  }
+
+  // 3. Prevent logged-in users from going to login pages
+  const isAuthPage = ['school-auth', 'donor-auth', 'student-auth'].includes(to.name as string)
+  if (isAuthPage && authStore.isAuthenticated) {
+    // If already logged in, send them to their specific dashboard
+    if (authStore.role === 'school') return next({ name: 'school-dashboard' })
+    if (authStore.role === 'sponsor') return next({ name: 'donor-dashboard' })
+    return next({ name: 'home' })
+  }
+
+  next() // Always call next() to finish the hook!
 })
 
 export default router
