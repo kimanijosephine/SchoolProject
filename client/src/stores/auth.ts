@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
-import axios from 'axios'
+import axios from '@/api/axios'
 import type { AuthFormData, AuthResponse, User } from '@/types'
 
-const serverUrl = import.meta.env.VITE_API_URL
+// const serverUrl = import.meta.env.VITE_API_URL
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
@@ -30,13 +30,17 @@ export const useAuthStore = defineStore('auth', {
     },
 
     async register(formData: AuthFormData) {
-      const response = await axios.post<AuthResponse>(`${serverUrl}/register`, formData)
+      const response = await axios.post<AuthResponse>(`/register`, formData)
+      //const response = await axios.post<AuthResponse>(`${serverUrl}/register`, formData)
+
       this.setUserData(response.data)
       return response.data
     },
 
     async login(credentials: Partial<AuthFormData>) {
-      const response = await axios.post<AuthResponse>(`${serverUrl}/login`, credentials)
+      const response = await axios.post<AuthResponse>(`/login`, credentials)
+      // const response = await axios.post<AuthResponse>(`${serverUrl}/login`, credentials)
+
       this.setUserData(response.data)
       return response.data
     },
