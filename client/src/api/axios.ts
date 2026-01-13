@@ -9,6 +9,7 @@ instance.interceptors.request.use((config) => {
   const authStore = useAuthStore() // Pinia works inside functions!
   if (authStore.token) {
     config.headers.Authorization = `Bearer ${authStore.token}`
+    console.log('added auth header')
   }
   return config
 })
