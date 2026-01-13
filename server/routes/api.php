@@ -21,7 +21,7 @@ Route::post('/register', [RegisterController::class, 'register']);
 
 // Protected routes for schools
 Route::middleware('auth:school')->group(function () {
-    Route::post('/school/upload', [StudentImportController::class, 'import']);
+    Route::post('/school/upload/{type}', [StudentImportController::class, 'import']);
     Route::get('/school/dashboard-stats',[SchoolController::class, 'getDashboardStats']);
     Route::get('/school/students', [SchoolController::class, 'getStudents']);
 });
