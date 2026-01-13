@@ -39,7 +39,7 @@ export const useSchoolStore = defineStore('school', {
       this.isLoading = true
       try {
         const params = year ? { year } : {}
-        const response = await axios.get(`/students`, { params })
+        const response = await axios.get(`/school/students`, { params })
         this.students = response.data
       } catch (error) {
         this.error = error instanceof Error ? error.message : String(error)

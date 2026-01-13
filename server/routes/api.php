@@ -23,4 +23,5 @@ Route::post('/register', [RegisterController::class, 'register']);
 Route::middleware('auth:school')->group(function () {
     Route::post('/students/import', [StudentImportController::class, 'import']);
     Route::get('/school/dashboard-stats',[SchoolController::class, 'getDashboardStats']);
+    Route::get('/school/students', [SchoolController::class, 'getStudents']);
 });
