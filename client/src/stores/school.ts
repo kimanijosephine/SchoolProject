@@ -56,7 +56,7 @@ export const useSchoolStore = defineStore('school', {
       formData.append('type', type) // Inform backend what kind of upload this is
 
       try {
-        await axios.post(`/upload/${type}`, formData, {
+        await axios.post(`/school/upload/${type}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
             ...this.getHeaders().headers,
