@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\School\SchoolController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
@@ -21,4 +22,5 @@ Route::post('/register', [RegisterController::class, 'register']);
 // Protected routes for schools
 Route::middleware('auth:school')->group(function () {
     Route::post('/students/import', [StudentImportController::class, 'import']);
+    Route::get('/school/dashboard-stats',[SchoolController::class, 'getDashboardStats']);
 });
