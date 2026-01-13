@@ -3,12 +3,12 @@
     <div
       class="relative bg-white w-[450px] max-w-full min-h-[500px] rounded-xl shadow-2xl overflow-hidden flex flex-col">
 
-      <div class="bg-gradient-to-r from-blue-500 to-indigo-600 py-10 px-8 text-center text-white">
+      <div class="bg-linear-to-r from-blue-500 to-indigo-600 py-10 px-8 text-center text-white">
         <h1 class="text-3xl font-bold">Student Portal</h1>
         <p class="text-sm mt-2 opacity-90">Please sign in to access your dashboard</p>
       </div>
 
-      <div class="flex-grow flex flex-col items-center justify-center px-12 py-8 text-center">
+      <div class="grow flex flex-col items-center justify-center px-12 py-8 text-center">
         <form @submit.prevent="handleLogin" class="w-full">
           <h2 class="text-2xl font-bold text-blue-600 mb-6">Sign In</h2>
 
