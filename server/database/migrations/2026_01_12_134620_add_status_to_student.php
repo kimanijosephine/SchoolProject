@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('students', function (Blueprint $table) {
             //
-             $table->string('status')->unique()->after('registration_number');
+             $table->string('status')->after('registration_number');
         });
     }
 
