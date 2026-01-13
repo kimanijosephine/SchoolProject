@@ -37,6 +37,7 @@ const router = createRouter({
     },
 
     // Dashboard routes pending authentication implementation
+    //school dashboards
     {
       path: '/school-dashboard',
       name: 'school-dashboard',
@@ -55,7 +56,7 @@ const router = createRouter({
       component: UploadsView,
       meta: { requiresAuth: true, role: 'school' },
     },
-
+    // donor dashboards
     {
       path: '/donor-dashboard',
       name: 'donor-dashboard',

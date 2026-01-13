@@ -1,14 +1,13 @@
 import { defineStore } from 'pinia'
-import axios from 'axios'
+import axios from '@/api/axios'
 import { useAuthStore } from './auth'
 import type { Student } from '@/types'
-const serverUrl = import.meta.env.VITE_API_URL
 
 export const useSchoolStore = defineStore('school', {
   state: () => ({
     students: [] as Student[],
     dashboardStats: {
-      totalStudents: 0,
+      total_students: 0,
       studentsPerYear: {} as Record<string, number>,
     },
     isLoading: false,
@@ -27,7 +26,7 @@ export const useSchoolStore = defineStore('school', {
     async fetchDashboardStats() {
       this.isLoading = true
       try {
-        const response = await axios.get(`${serverUrl}/dashboard/stats`)
+        const response = await axios.get(`/school/dashboard-stats`)
         this.dashboardStats = response.data
       } catch (error) {
         this.error = error instanceof Error ? error.message : String(error)
@@ -40,7 +39,7 @@ export const useSchoolStore = defineStore('school', {
       this.isLoading = true
       try {
         const params = year ? { year } : {}
-        const response = await axios.get(`${serverUrl}/students`, { params })
+        const response = await axios.get(`/school/students`, { params })
         this.students = response.data
       } catch (error) {
         this.error = error instanceof Error ? error.message : String(error)
@@ -57,7 +56,7 @@ export const useSchoolStore = defineStore('school', {
       formData.append('type', type) // Inform backend what kind of upload this is
 
       try {
-        await axios.post(`${serverUrl}/upload/${type}`, formData, {
+        await axios.post(`/school/upload/${type}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
             ...this.getHeaders().headers,
@@ -74,7 +73,7 @@ export const useSchoolStore = defineStore('school', {
 
     async updateStudentStatus(id: number, status: 'suspended' | 'expelled' | 'active') {
       try {
-        await axios.patch(`${serverUrl}/students/${id}/status`, { status })
+        await axios.patch(`/students/${id}/status`, { status })
         // Optimistically update the UI
         const student = this.students.find((s) => s.id === id)
         if (student) student.status = status
@@ -86,7 +85,7 @@ export const useSchoolStore = defineStore('school', {
     async resetStudentMarks(id: number) {
       if (!confirm('Are you sure? This cannot be undone.')) return
       try {
-        await axios.delete(`${serverUrl}/students/${id}/marks`)
+        await axios.delete(`/students/${id}/marks`)
         await this.fetchStudents()
       } catch (err) {
         console.error(err)
