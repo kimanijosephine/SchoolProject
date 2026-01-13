@@ -33,6 +33,7 @@
           file:bg-green-50 file:text-green-700
           hover:file:bg-green-100" />
 
+          // used for uploading marks
           <button @click="handleUpload('marks')" :disabled="store.isLoading"
             class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:opacity-50">
             {{ store.isLoading ? 'Uploading...' : 'Upload Marks' }}
