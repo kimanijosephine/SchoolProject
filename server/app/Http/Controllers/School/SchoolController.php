@@ -14,6 +14,12 @@ class SchoolController extends Controller
             'total_students' =>1500,
             'active_courses' =>45,
             'pending_fees' =>12000,
+            'studentsPerYear' => [
+                '2020' => 300,
+                '2021' => 400,
+                '2022' => 500,
+                '2023' => 300,
+            ],
         ];
         return response()->json($stats);
     }

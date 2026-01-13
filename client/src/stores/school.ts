@@ -7,7 +7,7 @@ export const useSchoolStore = defineStore('school', {
   state: () => ({
     students: [] as Student[],
     dashboardStats: {
-      totalStudents: 0,
+      total_students: 0,
       studentsPerYear: {} as Record<string, number>,
     },
     isLoading: false,
