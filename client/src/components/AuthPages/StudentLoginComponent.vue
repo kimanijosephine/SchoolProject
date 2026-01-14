@@ -70,6 +70,9 @@ const handleLogin = async () => {
       password: loginData.password,
       role: "student"
     });
+    if (response.first_login) {
+      alert("Welcome! Since this is your first login, we've sent a password reset link to your email. Please update your password.");
+    }
     console.log("Login successfull")
     router.push('/student-dashboard');
 
