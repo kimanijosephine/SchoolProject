@@ -65,7 +65,7 @@ const loginData = reactive({
 const handleLogin = async () => {
   console.log("Student Login Attempt:", loginData);
   try {
-    await authStore.login({
+    const response = await authStore.login({
       email: loginData.email,
       password: loginData.password,
       role: "student"
