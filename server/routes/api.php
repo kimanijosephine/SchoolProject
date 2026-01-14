@@ -18,6 +18,7 @@ Route::get('/status', function(){
 // AUthentication routes
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/register', [RegisterController::class, 'register']);
+Route::post('/reset-password', [LoginController::class, 'resetPassword']);
 
 // Protected routes for schools
 Route::middleware('auth:school')->group(function () {
