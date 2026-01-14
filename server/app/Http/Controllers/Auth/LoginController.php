@@ -92,12 +92,11 @@ class LoginController extends Controller
             'password' => 'required|min:6|confirmed',
         ]);
 
-        // We use the Password broker to validate the token
-        $status = Password::broker()->reset(
+        // Use the 'students' broker specifically
+        $status = Password::broker('students')->reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
                 $user->password = Hash::make($password);
-                // ONLY SET TO FALSE HERE
                 $user->is_first_login = false;
                 $user->save();
             }
