@@ -18,6 +18,7 @@ export interface AuthResponse {
   expires_in: number
   user: User
   role: 'school' | 'sponsor' | 'student' | 'admin'
+  first_login?: boolean
 }
 
 export interface Student {
