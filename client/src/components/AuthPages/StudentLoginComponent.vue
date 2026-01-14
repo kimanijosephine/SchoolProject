@@ -53,8 +53,6 @@ import { useRouter } from 'vue-router';
 
 const authStore = useAuthStore();
 const router = useRouter();
-// const serverUrl = import.meta.env.VITE_API_URL
-// import axios from 'axios';
 
 // student data
 
@@ -74,15 +72,6 @@ const handleLogin = async () => {
     });
     console.log("Login successfull")
     router.push('/student-dashboard');
-
-    // axios.post(serverUrl + '/login', {
-    //   email: loginData.email,
-    //   password: loginData.password,
-    //   role: "student"
-    // })
-    //   .then(response => {
-    //     console.log("Login Successful:", response.data);
-    //   })
 
   }
   catch (error) {
