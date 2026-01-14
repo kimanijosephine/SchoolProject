@@ -66,8 +66,8 @@ const handleReset = async () => {
 
     // Redirect to login after 2 seconds
     setTimeout(() => router.push('/student-auth'), 2000);
-  } catch (err: any) {
-    error.value = err.response?.data?.message || 'An error occurred.';
+  } catch (error) {
+    console.error(error);
   } finally {
     loading.value = false;
   }
