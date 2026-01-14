@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 use App\Notifications\FirstLoginResetPassword;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -81,5 +82,29 @@ class LoginController extends Controller
             Auth::guard($role)->logout();
         }
         return response()->json(['message' => 'Successfully logged out']);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        // We use the Password broker to validate the token
+        $status = Password::broker()->reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->password = Hash::make($password);
+                // ONLY SET TO FALSE HERE
+                $user->is_first_login = false;
+                $user->save();
+            }
+        );
+
+        return $status === Password::PASSWORD_RESET
+            ? response()->json(['message' => 'Password has been reset successfully.'])
+            : response()->json(['error' => __($status)], 403);
     }
 }
