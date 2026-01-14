@@ -10,6 +10,8 @@ import DonorDashboard from '@/views/DonorDashboard.vue'
 import SchoolDashboard from '@/views/SchoolVue/DashboardView.vue'
 import AdminStudentsView from '@/views/SchoolVue/StudentsView.vue'
 import UploadsView from '@/views/SchoolVue/UploadsView.vue'
+import StudentDashboard from '@/views/StudentVue/StudentDashboard.vue'
+import ResetPassword from '@/views/auth/auth/ResetPassword.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -35,6 +37,11 @@ const router = createRouter({
       name: 'student-auth',
       component: StudentLogin,
     },
+    {
+      path: '/reset-password/:token',
+      name: 'reset-password',
+      component: ResetPassword,
+    },
 
     // Dashboard routes pending authentication implementation
     //school dashboards
@@ -55,6 +62,14 @@ const router = createRouter({
       name: 'school-dashboard-uploads',
       component: UploadsView,
       meta: { requiresAuth: true, role: 'school' },
+    },
+
+    // student dashboards
+    {
+      path: '/student-dashboard',
+      name: 'student-dashboard',
+      component: StudentDashboard,
+      meta: { requiresAuth: true, role: 'student' },
     },
     // donor dashboards
     {

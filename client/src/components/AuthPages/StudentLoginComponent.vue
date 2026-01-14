@@ -48,26 +48,33 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue';
-const serverUrl = import.meta.env.VITE_API_URL
-import axios from 'axios';
+import { useAuthStore } from '@/stores/auth';
+import { useRouter } from 'vue-router';
+
+const authStore = useAuthStore();
+const router = useRouter();
+
 // student data
+
 const loginData = reactive({
   role: "student",
   email: "",
   password: ""
 });
 
-const handleLogin = () => {
+const handleLogin = async () => {
   console.log("Student Login Attempt:", loginData);
   try {
-    axios.post(serverUrl + '/login', {
+    const response = await authStore.login({
       email: loginData.email,
       password: loginData.password,
       role: "student"
-    })
-      .then(response => {
-        console.log("Login Successful:", response.data);
-      })
+    });
+    if (response.first_login) {
+      alert("Welcome! Since this is your first login, we've sent a password reset link to your email. Please update your password.");
+    }
+    console.log("Login successfull")
+    router.push('/student-dashboard');
 
   }
   catch (error) {

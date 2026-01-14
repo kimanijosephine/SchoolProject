@@ -1,11 +1,13 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
+use App\Notifications\FirstLoginResetPassword;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -30,9 +32,32 @@ class LoginController extends Controller
         if (!$token = Auth::guard($role)->attempt($credentials)) {
             return response()->json(['error' => 'Invalid credentials for ' . $role], 401);
         }
+        $user = Auth::guard($role)->user();
 
-        // 3. Return the token and user data to your Vue frontend
-        return $this->respondWithToken($token, $role);
+    // Logic for First Time Student Login
+    if ($role === 'student' && $user->is_first_login) {
+        // 1. Generate a password reset token
+        $resetToken = Password::getRepository()->create($user);
+
+        // 2. Send the custom notification
+        $user->notify(new FirstLoginResetPassword($resetToken));
+
+        // 3. Update the flag so they don't get emailed every time
+        // until they actually change the password
+        // $user->is_first_login = false;
+        $user->save();
+
+        return response()->json([
+            'message' => 'First login detected. A password reset link has been sent to your email.',
+            'first_login' => true,
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'user' => $user,
+            'role' => $role
+        ]);
+    }
+
+    return $this->respondWithToken($token, $role);
     }
 
     protected function respondWithToken($token, $role)
@@ -57,5 +82,28 @@ class LoginController extends Controller
             Auth::guard($role)->logout();
         }
         return response()->json(['message' => 'Successfully logged out']);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:6|confirmed',
+        ]);
+
+        // Use the 'students' broker specifically
+        $status = Password::broker('students')->reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->password = Hash::make($password);
+                $user->is_first_login = false;
+                $user->save();
+            }
+        );
+
+        return $status === Password::PASSWORD_RESET
+            ? response()->json(['message' => 'Password has been reset successfully.'])
+            : response()->json(['error' => __($status)], 403);
     }
 }
