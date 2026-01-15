@@ -4,6 +4,8 @@ export interface AuthFormData {
   password: string
   name?: string
   company_name?: string
+  token?: string
+  password_confirmation?: string
 }
 
 export interface User {
