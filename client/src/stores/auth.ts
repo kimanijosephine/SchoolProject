@@ -14,6 +14,8 @@ export const useAuthStore = defineStore('auth', {
   getters: {
     isAuthenticated: (state) => !!state.token,
     getUserName: (state) => state.user?.name || state.user?.company_name || 'User',
+    isFirstLogin: (state) =>
+      state.user?.is_first_login === true || state.user?.is_first_login === 1,
   },
 
   actions: {
