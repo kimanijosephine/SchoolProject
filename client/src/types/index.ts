@@ -4,12 +4,15 @@ export interface AuthFormData {
   password: string
   name?: string
   company_name?: string
+  token?: string
+  password_confirmation?: string
 }
 
 export interface User {
   name?: string
   email: string
   company_name?: string
+  is_first_login?: boolean | number
 }
 
 export interface AuthResponse {

@@ -14,6 +14,8 @@ export const useAuthStore = defineStore('auth', {
   getters: {
     isAuthenticated: (state) => !!state.token,
     getUserName: (state) => state.user?.name || state.user?.company_name || 'User',
+    isFirstLogin: (state) =>
+      state.user?.is_first_login === true || state.user?.is_first_login === 1,
   },
 
   actions: {
@@ -45,6 +47,12 @@ export const useAuthStore = defineStore('auth', {
       return response.data
     },
 
+    async resetPasswordFirstTimeLogin(formData: Partial<AuthFormData>) {
+      const response = await axios.post<AuthResponse>(`/reset-password`, formData)
+      this.setUserData(response.data)
+      return response.data
+    },
+
     logout() {
       this.user = null
       this.token = null
@@ -53,6 +61,7 @@ export const useAuthStore = defineStore('auth', {
       localStorage.removeItem('user')
       localStorage.removeItem('role')
       delete axios.defaults.headers.common['Authorization']
+      axios.post('/logout')
     },
   },
 })
