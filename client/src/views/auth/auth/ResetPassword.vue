@@ -75,16 +75,5 @@ const handleReset = async () => {
   } finally {
     loading.value = false;
   }
-  // try {
-  //   const response = await axios.post('/reset-password', form);
-  //   message.value = response.data.message;
-
-  //   // Redirect to login after 2 seconds
-  //   setTimeout(() => router.push('/student-auth'), 2000);
-  // } catch (error) {
-  //   console.error(error);
-  // } finally {
-  //   loading.value = false;
-  // }
 };
 </script>
