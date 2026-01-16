@@ -42,9 +42,6 @@ class LoginController extends Controller
         // 2. Send the custom notification
         $user->notify(new FirstLoginResetPassword($resetToken));
 
-        // 3. Update the flag so they don't get emailed every time
-        // until they actually change the password
-        // $user->is_first_login = false;
         $user->save();
 
         return response()->json([

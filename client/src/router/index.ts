@@ -92,14 +92,22 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
 
-  // 1. Check if route requires login
   if (to.meta.requiresAuth) {
     if (!authStore.isAuthenticated) {
-      // Not logged in? Redirect to home or a specific login
       return next({ name: 'home' })
     }
 
-    // 2. Check Role Authorization
+    // --- NEW LOGIC START ---
+    // If student hasn't reset password, block dashboard access
+    if (authStore.role === 'student' && authStore.isFirstLogin) {
+      // Allow them to see the reset-password page, but nothing else
+      if (to.name !== 'reset-password') {
+        alert('Please reset your password via the email link before accessing the dashboard.')
+        return next({ name: 'home' }) // or a dedicated 'verify-email' page
+      }
+    }
+    // --- NEW LOGIC END ---
+
     if (to.meta.role && authStore.role !== to.meta.role) {
       alert('Unauthorized access')
       return next({ name: 'home' })

@@ -63,21 +63,22 @@ const loginData = reactive({
 });
 
 const handleLogin = async () => {
-  console.log("Student Login Attempt:", loginData);
   try {
     const response = await authStore.login({
       email: loginData.email,
       password: loginData.password,
       role: "student"
     });
-    if (response.first_login) {
-      alert("Welcome! Since this is your first login, we've sent a password reset link to your email. Please update your password.");
-    }
-    console.log("Login successfull")
-    router.push('/student-dashboard');
 
-  }
-  catch (error) {
+    if (response.first_login) {
+      alert("Welcome! A password reset link has been sent to your email. Please update your password to gain dashboard access.");
+      // DO NOT push to dashboard. Redirect to home or an info page.
+      router.push('/');
+    } else {
+      console.log("Login successful");
+      router.push('/student-dashboard');
+    }
+  } catch (error) {
     console.error("Login Error:", error);
   }
 };

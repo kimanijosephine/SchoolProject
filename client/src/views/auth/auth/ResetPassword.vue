@@ -36,7 +36,10 @@
 <script setup lang="ts">
 import { reactive, ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import axios from '@/api/axios';
+// import axios from '@/api/axios';
+import { useAuthStore } from '@/stores/auth';
+
+const useAuth = useAuthStore();
 
 const route = useRoute();
 const router = useRouter();
@@ -61,13 +64,14 @@ const handleReset = async () => {
   loading.value = true;
   error.value = '';
   try {
-    const response = await axios.post('/reset-password', form);
-    message.value = response.data.message;
-
+    const response = await useAuth.resetPasswordFirstTimeLogin(form);
+    message.value = 'Password updated successfully! Redirecting to login...';
+    console.log(response.expires_in);
     // Redirect to login after 2 seconds
     setTimeout(() => router.push('/student-auth'), 2000);
   } catch (error) {
-    console.error(error);
+    console.log(error);
+    alert('An error occurred while resetting the password. Please try again.');
   } finally {
     loading.value = false;
   }

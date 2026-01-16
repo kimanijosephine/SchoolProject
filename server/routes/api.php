@@ -6,9 +6,9 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\School\StudentImportController;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+// Route::get('/user', function (Request $request) {
+//     return $request->user();
+// })->middleware('auth:sanctum');
 
 Route::get('/status', function(){
     return response()->json(['status'=>'ok']);
@@ -19,6 +19,7 @@ Route::get('/status', function(){
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/reset-password', [LoginController::class, 'resetPassword']);
+Route::post('/logout', [LoginController::class, 'logout']);
 
 // Protected routes for schools
 Route::middleware('auth:school')->group(function () {
