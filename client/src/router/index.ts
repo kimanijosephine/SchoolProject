@@ -10,6 +10,8 @@ import DonorDashboard from '@/views/DonorDashboard.vue'
 import SchoolDashboard from '@/views/SchoolVue/DashboardView.vue'
 import AdminStudentsView from '@/views/SchoolVue/StudentsView.vue'
 import UploadsView from '@/views/SchoolVue/UploadsView.vue'
+import StudentDashboard from '@/views/StudentVue/StudentDashboard.vue'
+import ResetPassword from '@/views/auth/auth/ResetPassword.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -35,8 +37,14 @@ const router = createRouter({
       name: 'student-auth',
       component: StudentLogin,
     },
+    {
+      path: '/reset-password/:token',
+      name: 'reset-password',
+      component: ResetPassword,
+    },
 
     // Dashboard routes pending authentication implementation
+    //school dashboards
     {
       path: '/school-dashboard',
       name: 'school-dashboard',
@@ -56,6 +64,14 @@ const router = createRouter({
       meta: { requiresAuth: true, role: 'school' },
     },
 
+    // student dashboards
+    {
+      path: '/student-dashboard',
+      name: 'student-dashboard',
+      component: StudentDashboard,
+      meta: { requiresAuth: true, role: 'student' },
+    },
+    // donor dashboards
     {
       path: '/donor-dashboard',
       name: 'donor-dashboard',
@@ -76,14 +92,22 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
 
-  // 1. Check if route requires login
   if (to.meta.requiresAuth) {
     if (!authStore.isAuthenticated) {
-      // Not logged in? Redirect to home or a specific login
       return next({ name: 'home' })
     }
 
-    // 2. Check Role Authorization
+    // --- NEW LOGIC START ---
+    // If student hasn't reset password, block dashboard access
+    if (authStore.role === 'student' && authStore.isFirstLogin) {
+      // Allow them to see the reset-password page, but nothing else
+      if (to.name !== 'reset-password') {
+        alert('Please reset your password via the email link before accessing the dashboard.')
+        return next({ name: 'home' }) // or a dedicated 'verify-email' page
+      }
+    }
+    // --- NEW LOGIC END ---
+
     if (to.meta.role && authStore.role !== to.meta.role) {
       alert('Unauthorized access')
       return next({ name: 'home' })

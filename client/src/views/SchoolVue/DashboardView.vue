@@ -6,7 +6,7 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <div class="bg-white p-6 rounded shadow">
           <h3 class="text-gray-500">Total Students</h3>
-          <p class="text-4xl font-bold">{{ store.dashboardStats.totalStudents }}</p>
+          <p class="text-4xl font-bold">{{ store.dashboardStats.total_students }}</p>
         </div>
       </div>
 
@@ -32,5 +32,6 @@ const store = useSchoolStore()
 
 onMounted(() => {
   store.fetchDashboardStats()
+  console.log(store.dashboardStats);
 })
 </script>

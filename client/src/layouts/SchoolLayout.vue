@@ -24,7 +24,7 @@
     </aside>
 
     <main class="flex-1 overflow-y-auto p-8">
-      <router-view></router-view>
+      <slot></slot>
     </main>
   </div>
 </template>
@@ -38,6 +38,6 @@ const router = useRouter()
 
 const handleLogout = () => {
   authStore.logout()
-  router.push('/login')
+  router.push('/')
 }
 </script>
