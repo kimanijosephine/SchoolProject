@@ -6,12 +6,12 @@ import SchoolLogin from '@/views/AuthVue/SchoolLogin.vue'
 import DonorLogin from '@/views/AuthVue/DonorLogin.vue'
 import StudentLogin from '@/views/AuthVue/StudentLogin.vue'
 // import SchoolDashboard from '@/views/SchoolDashboard.vue'
-import DonorDashboard from '@/views/DonorDashboard.vue'
 import SchoolDashboard from '@/views/SchoolVue/DashboardView.vue'
 import AdminStudentsView from '@/views/SchoolVue/StudentsView.vue'
 import UploadsView from '@/views/SchoolVue/UploadsView.vue'
 import StudentDashboard from '@/views/StudentVue/StudentDashboard.vue'
 import ResetPassword from '@/views/auth/auth/ResetPassword.vue'
+import SponsorDashboard from '@/views/SponsorDashboard.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -73,9 +73,9 @@ const router = createRouter({
     },
     // donor dashboards
     {
-      path: '/donor-dashboard',
-      name: 'donor-dashboard',
-      component: DonorDashboard,
+      path: '/sponsor-portal',
+      name: 'sponsor-portal',
+      component: SponsorDashboard,
       meta: { requiresAuth: true, role: 'sponsor' },
     },
 

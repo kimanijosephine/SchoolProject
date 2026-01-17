@@ -96,7 +96,7 @@ const handleRegister = async () => {
   try {
     await authStore.register(formData);
     console.log("Sponsor Registration successful");
-    router.push('/donor-dashboard');
+    router.push('/sponsor-portal');
   } catch (error) {
     console.error("Sponsor registration failed:", error);
   }
@@ -110,7 +110,7 @@ const handleLogin = async () => {
       role: "sponsor"
     });
     console.log("Sponsor Login Successful");
-    router.push('/donor-dashboard');
+    router.push('/sponsor-portal');
   } catch (error) {
     console.error("Sponsor Login Failed:", error);
   }

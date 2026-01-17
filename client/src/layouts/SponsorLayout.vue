@@ -1,6 +1,5 @@
 <template lang="html">
-  <section>
-    <h1>Donors</h1>
-  </section>
+  <h1>Sponsor Sidebar</h1>
 </template>
+
 <script lang="ts" setup></script>
