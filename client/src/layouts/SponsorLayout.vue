@@ -45,12 +45,12 @@
 <div class="px-4 pb-8 mt-auto">
   <button
     @click="toggleDesktopSidebar"
-    class="relative flex items-center h-14 w-full rounded-2xl transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group overflow-hidden
-           bg-white/[0.03] border border-white/5 hover:border-emerald-500/30 hover:bg-emerald-500/[0.08]"
+    class="relative flex items-center h-14 w-full rounded-2xl transition-all duration-500 ease-in-out group overflow-hidden
+           bg-white/3 border border-white/5 hover:border-emerald-500/30 hover:bg-emerald-500/8"
     :class="isDesktopSidebarExpanded ? 'px-5' : 'justify-center px-0'"
   >
     <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500
-                bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-emerald-500/10 via-transparent to-transparent">
+                bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] from-emerald-500/10 via-transparent to-transparent">
     </div>
 
     <div :class="['flex items-center transition-all duration-500', isDesktopSidebarExpanded ? 'gap-4' : '']">
@@ -145,7 +145,7 @@
 <script lang="ts" setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import {
-  Bars3Icon,  ChevronDoubleLeftIcon, ChevronDoubleRightIcon,
+  Bars3Icon,  ChevronDoubleLeftIcon,
   HomeIcon, UsersIcon, BellIcon, UserCircleIcon,
   ArrowRightStartOnRectangleIcon, ChartBarSquareIcon, WalletIcon
 } from '@heroicons/vue/24/outline';
