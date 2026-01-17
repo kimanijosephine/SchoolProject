@@ -1,9 +1,11 @@
 <template lang="html">
-  <div>
-    Donnor dashboard view
-  </div>
+  <SponsorLayout>
+
+  </SponsorLayout>
 </template>
 <script setup lang="ts">
+import SponsorLayout from '@/layouts/SponsorLayout.vue';
+
 
 </script>
 <style lang="css" scoped></style>
