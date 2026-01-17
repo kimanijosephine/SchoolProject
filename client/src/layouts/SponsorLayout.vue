@@ -98,7 +98,7 @@
             </button>
 
             <Transition name="pop">
-              <div v-if="isProfileOpen" class="absolute right-0 mt-3 w-60 bg-white rounded-2xl shadow-2xl border border-zinc-100 p-3 z-[100]">
+              <div v-if="isProfileOpen" class="absolute right-0 mt-3 w-60 bg-white rounded-2xl shadow-2xl border border-zinc-100 p-3 z-100">
                 <div class="px-4 py-3 border-b border-zinc-50 mb-2">
                   <p class="text-xs font-medium text-zinc-400 uppercase">Account</p>
                   <p class="text-sm font-bold text-slate-900">Premium Investor</p>
