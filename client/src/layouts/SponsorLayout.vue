@@ -9,59 +9,54 @@
     <aside :class="[
       'bg-[#121417] text-zinc-400 shadow-2xl transition-all duration-500 ease-in-out z-50',
       'rounded-[2.5rem] flex flex-col overflow-hidden border border-white/5 shrink-0',
-
-      // Mobile: Use h-[calc(100svh-3rem)] to prevent bottom cutoff
-      // Using fixed inset-y-6 creates that 'floating' margin you liked
+      // Mobile
       'fixed inset-y-6 left-6 w-72 h-[calc(100svh-3rem)]',
       isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-[120%]',
-
       // Desktop
       'md:relative md:inset-auto md:translate-x-0 md:h-full',
       isDesktopSidebarExpanded ? 'md:w-72' : 'md:w-24'
     ]">
 
       <div class="flex items-center h-24 overflow-hidden px-6 shrink-0">
-        <div
-          :class="['flex items-center w-full', isDesktopSidebarExpanded ? 'justify-start gap-4' : 'md:justify-center']">
-          <div
-            class="w-11 h-11 bg-emerald-500 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/20 shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-              class="w-7 h-7 text-emerald-950">
-              <path fill-rule="evenodd"
-                d="M12.516 2.17a.75.75 0 00-1.032 0 11.209 11.209 0 01-7.877 3.08.75.75 0 00-.722.515A12.74 12.74 0 002.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 00.374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 00-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08zm3.094 8.08a.75.75 0 10-1.22-.87l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.122 2.12a.75.75 0 001.141-.094l3.877-5.425z"
-                clip-rule="evenodd" />
+        <div :class="['flex items-center w-full', isDesktopSidebarExpanded ? 'justify-start gap-4' : 'md:justify-center']">
+          <div class="w-11 h-11 bg-emerald-500 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/20 shrink-0">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 text-emerald-950">
+              <path fill-rule="evenodd" d="M12.516 2.17a.75.75 0 00-1.032 0 11.209 11.209 0 01-7.877 3.08.75.75 0 00-.722.515A12.74 12.74 0 002.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 00.374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 00-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08zm3.094 8.08a.75.75 0 10-1.22-.87l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.122 2.12a.75.75 0 001.141-.094l3.877-5.425z" clip-rule="evenodd" />
             </svg>
           </div>
-          <span v-if="isDesktopSidebarExpanded || isMobileSidebarOpen"
-            class="font-bold text-xl text-white tracking-tight whitespace-nowrap">
+          <span v-if="isDesktopSidebarExpanded || isMobileSidebarOpen" class="font-bold text-xl text-white tracking-tight whitespace-nowrap">
             Invest<span class="text-emerald-500">Ed</span>
           </span>
         </div>
       </div>
 
       <nav class="flex-1 px-4 py-4 overflow-y-auto hide-scrollbar">
-        <a v-for="item in navItems" :key="item.name" href="#"
-          @click.prevent="activeTab = item.name; closeMobileSidebar()" :class="[
+        <RouterLink v-for="item in navItems" :key="item.name" :to="item.path"
+          @click="closeMobileSidebar"
+          :class="[
             navClass,
             'my-2',
-            activeTab === item.name ? activeNavClass : 'hover:text-white hover:bg-white/5',
+            $route.path === item.path ? activeNavClass : 'hover:text-white hover:bg-white/5',
             !isDesktopSidebarExpanded ? 'md:justify-center' : 'px-6'
           ]" style="margin-top: 0.5rem; margin-bottom: 0.5rem;">
+
           <component :is="item.icon" class="w-6 h-6 shrink-0" />
           <span v-if="isDesktopSidebarExpanded || isMobileSidebarOpen" class="font-medium whitespace-nowrap ml-1">
             {{ item.name }}
           </span>
-        </a>
+
+          <div v-if="!isDesktopSidebarExpanded"
+            class="hidden md:group-hover:flex absolute left-20 ml-4 bg-[#1c1f24] text-white text-xs font-bold px-4 py-2 rounded-xl whitespace-nowrap z-60 shadow-2xl border border-white/5">
+            {{ item.name }}
+          </div>
+        </RouterLink>
       </nav>
 
       <div class="hidden md:block px-4 pb-8 pt-4 border-t border-white/5 shrink-0">
-        <button @click="toggleDesktopSidebar" class="relative flex items-center h-14 w-full rounded-2xl transition-all duration-500 group overflow-hidden
-       bg-white/3 border border-white/5 hover:border-emerald-500/30 hover:bg-emerald-500/8"
+        <button @click="toggleDesktopSidebar" class="relative flex items-center h-14 w-full rounded-2xl transition-all duration-500 group overflow-hidden bg-white/3 border border-white/5 hover:border-emerald-500/30 hover:bg-emerald-500/8"
           :class="isDesktopSidebarExpanded ? 'px-5' : 'justify-center px-0'">
-
           <div :class="['flex items-center transition-all duration-500', isDesktopSidebarExpanded ? 'gap-4' : '']">
-            <ChevronDoubleLeftIcon
-              :class="['w-5 h-5 transition-all duration-700', isDesktopSidebarExpanded ? 'text-zinc-500' : 'text-emerald-500 rotate-180']" />
+            <ChevronDoubleLeftIcon :class="['w-5 h-5 transition-all duration-700', isDesktopSidebarExpanded ? 'text-zinc-500' : 'text-emerald-500 rotate-180']" />
             <div v-if="isDesktopSidebarExpanded" class="flex flex-col items-start leading-none">
               <span class="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-500">Sidebar</span>
               <span class="text-[9px] font-medium text-zinc-600 mt-1 uppercase">Minimize</span>
@@ -72,22 +67,22 @@
     </aside>
 
     <div class="flex-1 flex flex-col min-w-0 h-full gap-6">
-      <!-- Header  -->
-      <header
-        class="bg-white w-full rounded-[2.5rem] shadow-xl shadow-zinc-200/50 px-8 py-0 flex items-center justify-between shrink-0 h-20 border border-white">
+
+      <header class="bg-white w-full rounded-[2.5rem] shadow-xl shadow-zinc-200/50 px-8 py-0 flex items-center justify-between shrink-0 h-20 border border-white">
         <div class="flex items-center gap-4">
           <button @click="openMobileSidebar" class="md:hidden p-3 bg-zinc-100 rounded-2xl text-zinc-600">
             <Bars3Icon class="w-6 h-6" />
           </button>
           <div class="hidden md:block">
-            <h1 class="text-2xl font-black text-slate-900 tracking-tight leading-none">{{ activeTab }}</h1>
+            <h1 class="text-2xl font-black text-slate-900 tracking-tight leading-none">
+              {{ currentRouteName }}
+            </h1>
             <p class="text-[10px] font-bold text-emerald-600 uppercase tracking-[0.2em] mt-1">Institutional Portal</p>
           </div>
         </div>
 
         <div class="flex items-center gap-4">
-          <button
-            class="hidden sm:flex p-3 text-zinc-400 hover:bg-zinc-50 hover:text-emerald-600 rounded-2xl transition-all">
+          <button class="hidden sm:flex p-3 text-zinc-400 hover:bg-zinc-50 hover:text-emerald-600 rounded-2xl transition-all">
             <BellIcon class="w-6 h-6" />
           </button>
 
@@ -95,8 +90,7 @@
             <button @click.stop="isProfileOpen = !isProfileOpen"
               class="flex items-center gap-3 p-1.5 pr-4 rounded-[1.8rem] hover:bg-zinc-200 transition-all border border-transparent hover:border-zinc-200"
               :class="{ 'bg-zinc-200 border-zinc-100': isProfileOpen }">
-              <img src="https://i.pravatar.cc/150?img=32"
-                class="w-10 h-10 rounded-2xl object-cover shadow-sm ring-2 ring-emerald-50">
+              <img src="https://i.pravatar.cc/150?img=32" class="w-10 h-10 rounded-2xl object-cover shadow-sm ring-2 ring-emerald-50">
               <div class="text-left hidden lg:block">
                 <p class="text-xs font-bold text-slate-900 leading-none">Sarah Jenkins</p>
                 <p class="text-[9px] font-medium text-zinc-400 mt-1">ID: #4402</p>
@@ -104,19 +98,16 @@
             </button>
 
             <Transition name="pop">
-              <div v-if="isProfileOpen"
-                class="absolute right-0 mt-3 w-60 bg-white rounded-4x1 shadow-2xl border border-zinc-100 p-3 rounded-2xl z-100">
+              <div v-if="isProfileOpen" class="absolute right-0 mt-3 w-60 bg-white rounded-2xl shadow-2xl border border-zinc-100 p-3 z-100">
                 <div class="px-4 py-3 border-b border-zinc-50 mb-2">
                   <p class="text-xs font-medium text-zinc-400 uppercase">Account</p>
                   <p class="text-sm font-bold text-slate-900">Premium Investor</p>
                 </div>
-                <button
-                  class="w-full flex items-center gap-3 p-3 text-slate-600 hover:bg-zinc-200 rounded-2xl transition-colors">
+                <button class="w-full flex items-center gap-3 p-3 text-slate-600 hover:bg-zinc-200 rounded-2xl transition-colors">
                   <UserCircleIcon class="w-5 h-5" />
                   <span class="text-sm font-semibold">My Settings</span>
                 </button>
-                <button
-                  class="w-full flex items-center gap-3 p-3 text-red-500 hover:bg-red-50 rounded-3xl transition-colors">
+                <button class="w-full flex items-center gap-3 p-3 text-red-500 hover:bg-red-50 rounded-2xl transition-colors">
                   <ArrowRightStartOnRectangleIcon class="w-5 h-5" />
                   <span class="text-sm font-bold">Logout Session</span>
                 </button>
@@ -125,99 +116,71 @@
           </div>
         </div>
       </header>
-      <!-- Main Body for content -->
-      <main
-        class="flex-1 bg-white rounded-[2.5rem] shadow-xl shadow-zinc-200/40 p-8 md:p-10 overflow-y-auto custom-scrollbar border border-white">
-        <slot>
-        </slot>
+
+      <main class="flex-1 bg-white rounded-[2.5rem] shadow-xl shadow-zinc-200/40 p-8 md:p-10 overflow-y-auto custom-scrollbar border border-white">
+        <slot></slot>
       </main>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { useRoute, RouterLink } from 'vue-router';
 import {
-  Bars3Icon, ChevronDoubleLeftIcon,
-  HomeIcon, UsersIcon, BellIcon, UserCircleIcon,
-  ArrowRightStartOnRectangleIcon, ChartBarSquareIcon, WalletIcon
+  Bars3Icon, ChevronDoubleLeftIcon, HomeIcon, UsersIcon,
+  BellIcon, UserCircleIcon, ArrowRightStartOnRectangleIcon,
+  ChartBarSquareIcon, WalletIcon
 } from '@heroicons/vue/24/outline';
 
+const route = useRoute();
+
+// State
 const isMobileSidebarOpen = ref(false);
 const isDesktopSidebarExpanded = ref(true);
 const isProfileOpen = ref(false);
-const activeTab = ref('Dashboard');
 
+// Configuration
 const navItems = [
-  { name: 'Dashboard', icon: HomeIcon },
-  { name: 'My Students', icon: UsersIcon },
-  { name: 'Performance', icon: ChartBarSquareIcon },
-  { name: 'Wallet', icon: WalletIcon },
+  { name: 'Dashboard', icon: HomeIcon, path: '/sponsor-portal' },
+  { name: 'My Students', icon: UsersIcon, path: '/my-students' },
+  { name: 'Performance', icon: ChartBarSquareIcon, path: '/performance' },
+  { name: 'Wallet', icon: WalletIcon, path: '/my-wallet' },
 ];
 
 const navClass = "flex items-center gap-4 p-4 rounded-[1.5rem] transition-all duration-300 group relative";
 const activeNavClass = "bg-emerald-500 text-emerald-950 shadow-xl shadow-emerald-500/20 font-bold";
 
+// Dynamic Header Title based on current route
+const currentRouteName = computed(() => {
+  const currentItem = navItems.find(item => item.path === route.path);
+  return currentItem ? currentItem.name : 'Dashboard';
+});
+
+// Methods
 const openMobileSidebar = () => isMobileSidebarOpen.value = true;
 const closeMobileSidebar = () => isMobileSidebarOpen.value = false;
 const toggleDesktopSidebar = () => isDesktopSidebarExpanded.value = !isDesktopSidebarExpanded.value;
 
-// Close dropdown on click outside
+// Global Click listener for profile dropdown
 const closePopups = () => isProfileOpen.value = false;
 onMounted(() => window.addEventListener('click', closePopups));
 onUnmounted(() => window.removeEventListener('click', closePopups));
 </script>
 
 <style scoped>
-/* Smooth Pop-out Animation for Profile Menu */
-.pop-enter-active {
-  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
+.pop-enter-active { transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.pop-leave-active { transition: all 0.15s ease-in; }
+.pop-enter-from, .pop-leave-to { opacity: 0; transform: translateY(-12px) scale(0.9); }
 
-.pop-leave-active {
-  transition: all 0.15s ease-in;
-}
+.fade-enter-active, .fade-leave-active { transition: opacity 0.3s ease; }
+.fade-enter-from, .fade-leave-to { opacity: 0; }
 
-.pop-enter-from,
-.pop-leave-to {
-  opacity: 0;
-  transform: translateY(-12px) scale(0.9);
-}
+.custom-scrollbar::-webkit-scrollbar { width: 6px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: #f1f1f1; border-radius: 10px; }
+.custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #e4e4e7; }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-/* Elegant Custom Scrollbar */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #f1f1f1;
-  border-radius: 10px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #e4e4e7;
-}
-
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-
-.hide-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 </style>
