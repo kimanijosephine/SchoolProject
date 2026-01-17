@@ -6,91 +6,91 @@
         @click="closeMobileSidebar"></div>
     </Transition>
 
-    <aside :class="[
-      'bg-[#121417] text-zinc-400 shadow-2xl transition-all duration-500 ease-in-out z-50',
-      'rounded-[2.5rem] flex flex-col justify-between overflow-hidden border border-white/5 shrink-0',
-      // Mobile
-      'fixed inset-y-6 left-6 w-72',
-      isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-[120%]',
-      // Desktop
-      'md:relative md:inset-auto md:translate-x-0 h-full',
-      isDesktopSidebarExpanded ? 'md:w-72' : 'md:w-24'
+<aside :class="[
+  'bg-[#121417] text-zinc-400 shadow-2xl transition-all duration-500 ease-in-out z-50',
+  'rounded-[2.5rem] flex flex-col justify-between overflow-hidden border border-white/5 shrink-0',
+  // Mobile: Always full width (w-72) when visible
+  'fixed inset-y-6 left-6 w-72',
+  isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-[120%]',
+  // Desktop: Logic remains for expand/collapse
+  'md:relative md:inset-auto md:translate-x-0 h-full',
+  isDesktopSidebarExpanded ? 'md:w-72' : 'md:w-24'
+]">
+
+  <div class="flex items-center h-24 overflow-hidden px-6">
+    <div :class="[
+      'flex items-center w-full transition-all duration-500',
+      // Force justify-start on mobile regardless of desktop state
+      'justify-start gap-4 md:justify-start',
+      !isDesktopSidebarExpanded ? 'md:justify-center md:gap-0' : 'md:gap-4'
     ]">
-      <div class="flex items-center h-24 overflow-hidden px-6">
-        <div
-          :class="['flex items-center w-full transition-all duration-500', isDesktopSidebarExpanded ? 'justify-start gap-4' : 'justify-center']">
-          <div
-            class="w-11 h-11 bg-emerald-500 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/20 shrink-0">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
-              class="w-7 h-7 text-emerald-950">
-              <path fill-rule="evenodd"
-                d="M12.516 2.17a.75.75 0 00-1.032 0 11.209 11.209 0 01-7.877 3.08.75.75 0 00-.722.515A12.74 12.74 0 002.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 00.374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 00-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08zm3.094 8.08a.75.75 0 10-1.22-.87l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.122 2.12a.75.75 0 001.141-.094l3.877-5.425z"
-                clip-rule="evenodd" />
-            </svg>
-          </div>
-          <span v-if="isDesktopSidebarExpanded"
-            class="font-bold text-xl text-white tracking-tight whitespace-nowrap animate-in fade-in duration-500">
-            Invest<span class="text-emerald-500">Ed</span>
+      <div class="w-11 h-11 bg-emerald-500 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/20 shrink-0">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-7 h-7 text-emerald-950">
+          <path fill-rule="evenodd" d="M12.516 2.17a.75.75 0 00-1.032 0 11.209 11.209 0 01-7.877 3.08.75.75 0 00-.722.515A12.74 12.74 0 002.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 00.374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 00-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08zm3.094 8.08a.75.75 0 10-1.22-.87l-3.236 4.53L9.53 12.22a.75.75 0 00-1.06 1.06l2.122 2.12a.75.75 0 001.141-.094l3.877-5.425z" clip-rule="evenodd" />
+        </svg>
+      </div>
+      <span :class="['font-bold text-xl text-white tracking-tight whitespace-nowrap animate-in fade-in duration-500', !isDesktopSidebarExpanded ? 'md:hidden' : 'block']">
+        Invest<span class="text-emerald-500">Ed</span>
+      </span>
+    </div>
+  </div>
+
+  <nav class="flex-1 px-4 py-8 overflow-y-auto hide-scrollbar">
+    <a v-for="item in navItems" :key="item.name" href="#" @click.prevent="activeTab = item.name"
+      :class="[
+        navClass,
+        'my-2',
+        activeTab === item.name ? activeNavClass : 'hover:text-white hover:bg-white/5',
+        // Desktop handles centering, Mobile is always full width with padding
+        !isDesktopSidebarExpanded ? 'md:justify-center px-6 md:px-0' : 'px-6'
+      ]" style="margin-top: 0.5rem; margin-bottom: 0.5rem;">
+
+      <component :is="item.icon" class="w-6 h-6 shrink-0" />
+
+      <span :class="['font-medium whitespace-nowrap ml-1', !isDesktopSidebarExpanded ? 'md:hidden' : 'block']">
+        {{ item.name }}
+      </span>
+
+      <div v-if="!isDesktopSidebarExpanded"
+        class="hidden md:group-hover:flex absolute left-20 ml-4 bg-[#1c1f24] text-white text-xs font-bold px-4 py-2 rounded-xl whitespace-nowrap z-60 shadow-2xl border border-white/5">
+        {{ item.name }}
+      </div>
+    </a>
+  </nav>
+
+  <div class="hidden md:block px-4 pb-8 mt-auto">
+    <button @click="toggleDesktopSidebar" class="relative flex items-center h-14 w-full rounded-2xl transition-all duration-500 ease-in-out group overflow-hidden
+       bg-white/3 border border-white/5 hover:border-emerald-500/30 hover:bg-emerald-500/8"
+      :class="isDesktopSidebarExpanded ? 'px-5' : 'justify-center px-0'">
+
+      <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500
+          bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] from-emerald-500/10 via-transparent to-transparent">
+      </div>
+
+      <div :class="['flex items-center transition-all duration-500', isDesktopSidebarExpanded ? 'gap-4' : '']">
+        <div class="relative">
+          <ChevronDoubleLeftIcon :class="[
+            'w-5 h-5 transition-all duration-700 ease-in-out',
+            isDesktopSidebarExpanded ? 'text-zinc-500 group-hover:text-emerald-400' : 'text-emerald-500 rotate-180'
+          ]" />
+        </div>
+
+        <div v-if="isDesktopSidebarExpanded" class="h-4 w-px bg-white/10 group-hover:bg-emerald-500/30 transition-colors"></div>
+
+        <div v-if="isDesktopSidebarExpanded" class="flex flex-col items-start leading-none">
+          <span class="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-500 group-hover:text-emerald-400 transition-colors">
+            Sidebar
+          </span>
+          <span class="text-[9px] font-medium text-zinc-600 mt-1 uppercase tracking-widest">
+            Minimize
           </span>
         </div>
       </div>
 
-      <nav class="flex-1 px-4 py-8 overflow-y-auto hide-scrollbar">
-        <a v-for="item in navItems" :key="item.name" href="#" @click.prevent="activeTab = item.name" :class="[
-          navClass,
-          'my-2', // This is exactly 0.5rem (8px) top and bottom
-          activeTab === item.name ? activeNavClass : 'hover:text-white hover:bg-white/5',
-          !isDesktopSidebarExpanded ? 'justify-center' : 'px-6'
-        ]" style="margin-top: 0.5rem; margin-bottom: 0.5rem;">
-          <component :is="item.icon" class="w-6 h-6 shrink-0" />
-
-          <span v-if="isDesktopSidebarExpanded" class="font-medium whitespace-nowrap ml-1">
-            {{ item.name }}
-          </span>
-
-          <div v-if="!isDesktopSidebarExpanded"
-            class="hidden md:group-hover:flex absolute left-20 ml-4 bg-[#1c1f24] text-white text-xs font-bold px-4 py-2 rounded-xl whitespace-nowrap z-60 shadow-2xl border border-white/5">
-            {{ item.name }}
-          </div>
-        </a>
-      </nav>
-
-      <div class="px-4 pb-8 mt-auto">
-        <button @click="toggleDesktopSidebar" class="relative flex items-center h-14 w-full rounded-2xl transition-all duration-500 ease-in-out group overflow-hidden
-           bg-white/3 border border-white/5 hover:border-emerald-500/30 hover:bg-emerald-500/8"
-          :class="isDesktopSidebarExpanded ? 'px-5' : 'justify-center px-0'">
-          <div
-            class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500
-                bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] from-emerald-500/10 via-transparent to-transparent">
-          </div>
-
-          <div :class="['flex items-center transition-all duration-500', isDesktopSidebarExpanded ? 'gap-4' : '']">
-            <div class="relative">
-              <ChevronDoubleLeftIcon :class="[
-                'w-5 h-5 transition-all duration-700 ease-in-out',
-                isDesktopSidebarExpanded ? 'text-zinc-500 group-hover:text-emerald-400' : 'text-emerald-500 rotate-180'
-              ]" />
-            </div>
-
-            <div v-if="isDesktopSidebarExpanded"
-              class="h-4 w-px bg-white/10 group-hover:bg-emerald-500/30 transition-colors"></div>
-
-            <div v-if="isDesktopSidebarExpanded" class="flex flex-col items-start leading-none">
-              <span
-                class="text-[10px] font-black uppercase tracking-[0.25em] text-zinc-500 group-hover:text-emerald-400 transition-colors">
-                Sidebar
-              </span>
-              <span class="text-[9px] font-medium text-zinc-600 mt-1 uppercase tracking-widest">
-                Minimize
-              </span>
-            </div>
-          </div>
-
-          <div v-if="!isDesktopSidebarExpanded" class="absolute bottom-1 w-1 h-1 bg-emerald-500/40 rounded-full">
-          </div>
-        </button>
-      </div>
-    </aside>
+      <div v-if="!isDesktopSidebarExpanded" class="absolute bottom-1 w-1 h-1 bg-emerald-500/40 rounded-full"></div>
+    </button>
+  </div>
+</aside>
 
     <div class="flex-1 flex flex-col min-w-0 h-full gap-6">
       <!-- Header  -->
