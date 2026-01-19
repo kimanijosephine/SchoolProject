@@ -58,4 +58,15 @@ class SchoolController extends Controller
 
         return response()->json(['message' => 'Status updated successfully']);
     }
+
+    public function resetMarks($id)
+    {
+    $school = auth()->user();
+    $student = $school->students()->findOrFail($id);
+
+    // Logic to clear marks (e.g., if you have a marks table)
+    // $student->marks()->delete();
+
+    return response()->json(['message' => 'Marks reset successfully']);
+    }
 }
