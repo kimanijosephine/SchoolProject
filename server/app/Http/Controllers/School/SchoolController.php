@@ -4,75 +4,58 @@ namespace App\Http\Controllers\School;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Students; // Using your plural model name
 
 class SchoolController extends Controller
 {
-    //
     public function getDashboardStats(Request $request)
     {
-        $stats = [
-            'total_students' =>1500,
-            'active_courses' =>45,
-            'pending_fees' =>12000,
-            'studentsPerYear' => [
-                '2020' => 300,
-                '2021' => 400,
-                '2022' => 500,
-                '2023' => 300,
-            ],
-        ];
-        return response()->json($stats);
+        $school = $request->user();
+
+        return response()->json([
+            'total_students' => $school->students()->count(),
+
+            // Count unique courses based on course_id column
+            'active_courses' => $school->students()->distinct('course_id')->count('course_id'),
+
+            // Example for pending fees (assumes you have a column for this)
+            'pending_fees'   => 0,
+
+            // Gets counts grouped by the class_year column
+            'studentsPerYear' => $school->students()
+                ->selectRaw('class_year, count(*) as count')
+                ->groupBy('class_year')
+                ->pluck('count', 'class_year')
+        ]);
     }
-    public function getStudents(Request $request){
+
+    public function getStudents(Request $request)
+    {
+        $school = $request->user();
         $year = $request->query('year');
-        //dummy data
-        $students = [
-    [
-        'id' => 1,
-        'name' => 'Alice Johnson',
-        'registration_number' => 'REG-001',
-        'course_id' => 'CS-101',
-        'year_of_study' => 2,
-        'class_year' => 2021,
-        'email' => 'alice@example.com',
-        'school_id' => 'SCH-A',
-        'status' => 'active',
-        // 'marks' => [] // Optional
-    ],
-    [
-        'id' => 2,
-        'name' => 'Bob Smith',
-        'registration_number' => 'REG-002',
-        'course_id' => 'ENG-202',
-        'year_of_study' => 1,
-        'class_year' => 2022,
-        'email' => 'bob@example.com',
-        'school_id' => 'SCH-A',
-        'status' => 'suspended',
-    ],
-    [
-        'id' => 3,
-        'name' => 'Charlie Brown',
-        'registration_number' => 'REG-003',
-        'course_id' => 'CS-101',
-        'year_of_study' => 2,
-        'class_year' => 2021,
-        'email' => 'charlie@example.com',
-        'school_id' => 'SCH-A',
-        'status' => 'active',
-    ],
-    [
-        'id' => 4,
-        'name' => 'Diana Prince',
-        'registration_number' => 'REG-004',
-        'course_id' => 'ART-303',
-        'year_of_study' => 1,
-        'class_year' => 2023,
-        'email' => 'diana@example.com',
-        'school_id' => 'SCH-A',
-        'status' => 'expelled',
-    ],
-];
-        return response()->json($students);
+
+        // Start the query from the school's relationship for security
+        $query = $school->students();
+
+        // Apply year filter if selected in frontend
+        if ($year) {
+            $query->where('year_of_study', $year);
+        }
+
+        // Return the results (latest first)
+        return response()->json($query->latest()->get());
+    }
+
+    // Adding the status update logic for your frontend buttons
+    public function updateStatus(Request $request, $id)
+    {
+        $school = $request->user();
+
+        $student = $school->students()->findOrFail($id);
+        $student->update([
+            'status' => $request->status
+        ]);
+
+        return response()->json(['message' => 'Status updated successfully']);
     }
 }
