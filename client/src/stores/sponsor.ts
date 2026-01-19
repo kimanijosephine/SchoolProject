@@ -19,7 +19,6 @@ export const useSponsorStore = defineStore('sponsor', {
       this.isLoading = true
       this.error = null
       try {
-        // Axios will use the base URL and interceptors defined in your @/api/axios
         const response = await axios.get('/sponsor-portal')
         this.dashboardStats = response.data
       } catch (error: any) {
