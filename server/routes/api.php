@@ -29,4 +29,5 @@ Route::middleware('auth:school')->group(function () {
 
     // Add this to handle the Suspend/Expel buttons
     Route::patch('/school/students/{id}/status', [SchoolController::class, 'updateStatus']);
+    Route::delete('/school/students/{id}/marks', [SchoolController::class, 'resetMarks']);
 });
