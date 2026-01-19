@@ -25,7 +25,7 @@ class FrontendController extends Controller
 
         // 2. Students per Year (e.g., {"2024": 5, "2025": 2})
         $studentsPerYear = $sponsor->students
-            ->groupBy('year-of-study')
+            ->groupBy('year_of_study')
             ->map(fn($group) => $group->count());
 
         // 3. School Breakdown (Mapping how many students are in which school)
