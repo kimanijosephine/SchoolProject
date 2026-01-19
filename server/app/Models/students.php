@@ -10,7 +10,7 @@ class Students extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
-    protected $fillable = [ 'name', 'course_id', 'year_of_study', 'class_year', 'email', 'password', 'school_id', 'registration_number', 'status'];
+    protected $fillable = ['name', 'course_id', 'year_of_study', 'class_year', 'email', 'password', 'school_id', 'registration_number', 'status'];
     protected $hidded = ['password'];
 
     /**
@@ -29,5 +29,15 @@ class Students extends Authenticatable implements JWTSubject
         return [
             'role' => 'sponsor' // This helps identify the user type in Vue
         ];
+    }
+
+    public function sponsor()
+    {
+        return $this->belongsTo(Sponsors::class);
+    }
+
+    public function school()
+    {
+        return $this->belongsTo(Schools::class);
     }
 }
