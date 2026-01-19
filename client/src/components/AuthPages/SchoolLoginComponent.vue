@@ -1,13 +1,13 @@
 <template lang="html">
   <div class="flex items-center justify-center min-h-screen bg-gray-100 font-sans">
-    <div id="container" :class="['relative overflow-hidden w-[768px] max-w-full min-h-[480px] bg-white rounded-xl shadow-2xl',
+    <div id="container" :class="['relative overflow-hidden w-3xl max-w-full min-h-[480px] bg-white rounded-xl shadow-2xl',
       isSignUp ? 'right-panel-active' : '']">
       <div
-        class="form-container sign-up-container absolute top-0 h-full transition-all duration-700 ease-in-out left-0 w-1/2 opacity-0 z-[1]">
+        class="form-container sign-up-container absolute top-0 h-full transition-all duration-700 ease-in-out left-0 w-1/2 opacity-0 z-1">
         <form @submit.prevent="handleRegister"
           class="bg-white flex flex-col items-center justify-center h-full px-12 text-center">
           <h1 class="text-2xl font-bold m-0 py-2 text-blue-600">Create A School Account</h1>
-          <span class="text-sm text-gray-600 my-3 py-2 text-blue-600" style="color: #2563eb;">Register a
+          <span class="text-sm hover:text-gray-600 my-3 py-2 text-blue-600" style="color: #2563eb;">Register a
             School</span>
           <input v-model="formData.name" type="text" placeholder="School Name"
             class="bg-gray-100 border-none p-3 m-2 w-full rounded-lg focus:ring-2 focus:ring-blue-400 outline-none text-gray-600"
@@ -27,7 +27,7 @@
       </div>
 
       <div
-        class="form-container sign-in-container absolute top-0 h-full transition-all duration-700 ease-in-out left-0 w-1/2 z-[2]">
+        class="form-container sign-in-container absolute top-0 h-full transition-all duration-700 ease-in-out left-0 w-1/2 z-2">
         <form @submit.prevent="handleLogin"
           class="bg-white flex flex-col items-center justify-center h-full px-12 text-center">
           <h1 class="text-2xl font-bold m-0 text-blue-600 py-2">Sign in</h1>
@@ -46,9 +46,9 @@
       </div>
 
       <div
-        class="overlay-container absolute top-0 left-1/2 w-1/2 h-full overflow-hidden transition-transform duration-700 ease-in-out z-[100]">
+        class="overlay-container absolute top-0 left-1/2 w-1/2 h-full overflow-hidden transition-transform duration-700 ease-in-out z-100">
         <div
-          class="overlay bg-gradient-to-r from-blue-500 to-indigo-600 text-white relative -left-full h-full w-[200%] transform translate-x-0 transition-transform duration-700 ease-in-out">
+          class="overlay bg-linear-to-r from-blue-500 to-indigo-600 text-white relative -left-full h-full w-[200%] transform translate-x-0 transition-transform duration-700 ease-in-out">
 
           <div :class="['overlay-panel overlay-left absolute flex flex-col items-center justify-center h-full w-1/2 px-10 text-center top-0 transition-transform duration-700 ease-in-out',
             isSignUp ? 'transform translate-x-0' : 'transform -translate-x-[20%]']">

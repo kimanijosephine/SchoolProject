@@ -18,7 +18,10 @@
     }
   ],
   "compilerOptions": {
-    "module": "NodeNext",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "noEmit": false,
+    // "allowImportingTsExtensions": true,
     "paths": {
       "@/*": ["./src/*"]
     }
