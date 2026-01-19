@@ -6,12 +6,15 @@ import SchoolLogin from '@/views/AuthVue/SchoolLogin.vue'
 import DonorLogin from '@/views/AuthVue/DonorLogin.vue'
 import StudentLogin from '@/views/AuthVue/StudentLogin.vue'
 // import SchoolDashboard from '@/views/SchoolDashboard.vue'
-import DonorDashboard from '@/views/DonorDashboard.vue'
 import SchoolDashboard from '@/views/SchoolVue/DashboardView.vue'
 import AdminStudentsView from '@/views/SchoolVue/StudentsView.vue'
 import UploadsView from '@/views/SchoolVue/UploadsView.vue'
 import StudentDashboard from '@/views/StudentVue/StudentDashboard.vue'
 import ResetPassword from '@/views/auth/auth/ResetPassword.vue'
+import SponsorDashboard from '@/views/SponsorDashboard.vue'
+import StudentView from '@/views/SponsorView/StudentView.vue'
+import PerformanceView from '@/views/SponsorView/PerformanceView.vue'
+import WalletView from '@/views/SponsorView/WalletView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -71,11 +74,29 @@ const router = createRouter({
       component: StudentDashboard,
       meta: { requiresAuth: true, role: 'student' },
     },
-    // donor dashboards
+    // Sponsor dashboards
     {
-      path: '/donor-dashboard',
-      name: 'donor-dashboard',
-      component: DonorDashboard,
+      path: '/sponsor-portal',
+      name: 'sponsor-portal',
+      component: SponsorDashboard,
+      meta: { requiresAuth: true, role: 'sponsor' },
+    },
+    {
+      path: '/my-students',
+      name: 'my-students',
+      component: StudentView,
+      meta: { requiresAuth: true, role: 'sponsor' },
+    },
+    {
+      path: '/performance',
+      name: 'performance',
+      component: PerformanceView,
+      meta: { requiresAuth: true, role: 'sponsor' },
+    },
+    {
+      path: '/my-wallet',
+      name: 'my-wallet',
+      component: WalletView,
       meta: { requiresAuth: true, role: 'sponsor' },
     },
 
