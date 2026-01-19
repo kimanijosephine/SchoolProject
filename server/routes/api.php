@@ -1,14 +1,11 @@
 <?php
 use App\Http\Controllers\School\SchoolController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\School\StudentImportController;
-
-// Route::get('/user', function (Request $request) {
-//     return $request->user();
-// })->middleware('auth:sanctum');
+use App\Http\Controllers\Sponsor\FrontendController;
+use App\Http\Controllers\Sponsor\WalletController;
 
 Route::get('/status', function(){
     return response()->json(['status'=>'ok']);
@@ -26,4 +23,9 @@ Route::middleware('auth:school')->group(function () {
     Route::post('/school/upload/{type}', [StudentImportController::class, 'import']);
     Route::get('/school/dashboard-stats',[SchoolController::class, 'getDashboardStats']);
     Route::get('/school/students', [SchoolController::class, 'getStudents']);
+});
+Route::middleware('auth:sponsor')->group(function () {
+    Route::get('/sponsor-portal',[FrontendController::class, 'index']);
+    Route::get('/sponsor/my-students',[FrontendController::class, 'myStudents']);
+    Route::get('/sponsor/my-wallet', [WalletController::class, 'index']);
 });
