@@ -30,4 +30,9 @@ class Schools extends Authenticatable implements JWTSubject
             'role' => 'school' // This helps identify the user type in Vue
         ];
     }
+
+    // create relationship with students
+    public function students(){
+        return $this->hasMany(Students::class, 'school_id', 'id');
+    }
 }
