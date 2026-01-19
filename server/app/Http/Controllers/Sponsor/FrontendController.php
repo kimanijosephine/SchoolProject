@@ -2,30 +2,42 @@
 
 namespace App\Http\Controllers\Sponsor;
 
+use App\Models\Sponsor;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Sponsors;
 use Illuminate\Support\Facades\Auth;
 
 class FrontendController extends Controller
 {
     public function index()
     {
-        $sponsor = Auth::user();
-        $totalStudents = $sponsor->students()->count();
+        // Use the 'sponsor' guard specifically
+        $sponsorId = auth('sponsor')->id();
+        $sponsor = Sponsors::with(['students.school'])->find($sponsorId);
 
-        // 3. Fetch students grouped by their academic year
-        // This assumes your students table has a 'year' column (e.g., 1, 2, 3, 4)
-        $studentsPerYear = $sponsor->students()
-            ->selectRaw('year, count(*) as count')
-            ->groupBy('year')
-            ->orderBy('year')
-            ->pluck('count', 'year'); // Returns format: {"2024": 5, "2025": 10}
+        if (!$sponsor) {
+            return response()->json(['message' => 'Sponsor not found'], 404);
+        }
 
-        // 4. Return the response in the structure your Frontend expects
+        // 1. Total Students
+        $totalStudents = $sponsor->students->count();
+
+        // 2. Students per Year (e.g., {"2024": 5, "2025": 2})
+        $studentsPerYear = $sponsor->students
+            ->groupBy('academic_year')
+            ->map(fn($group) => $group->count());
+
+        // 3. School Breakdown (Mapping how many students are in which school)
+        $schoolBreakdown = $sponsor->students
+            ->groupBy('school.school_name')
+            ->map(fn($group) => $group->count());
+
         return response()->json([
             'total_students' => $totalStudents,
             'studentsPerYear' => $studentsPerYear,
-            'message' => 'Sponsor dashboard stats fetched successfully'
-        ], 200);
+            'school_breakdown' => $schoolBreakdown,
+            'company_name' => $sponsor->company_name
+        ]);
     }
 }
