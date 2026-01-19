@@ -36,3 +36,10 @@ export interface Student {
   status: 'active' | 'suspended' | 'expelled'
   marks?: Record<string, number>
 }
+
+export interface Sponsor {
+  id: number
+  company_name: string
+  email: string
+  school_id: string
+}
