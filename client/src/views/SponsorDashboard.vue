@@ -8,8 +8,13 @@
   </SponsorLayout>
 </template>
 <script setup lang="ts">
+  import { onMounted } from 'vue'
+  import { useSponsorStore } from '@/stores/sponsor'
 import SponsorLayout from '@/layouts/SponsorLayout.vue';
 
-
+onMounted(() => {
+  store.fetchDashboardStats()
+  console.log(store.dashboardStats);
+})
 </script>
 <style lang="css" scoped></style>

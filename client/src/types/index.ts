@@ -43,3 +43,9 @@ export interface Sponsor {
   email: string
   school_id: string
 }
+
+export interface DashboardStats {
+  total_students: number
+  studentsPerYear: Record<string, number>
+  wallet_balance?: number // Added based on your description
+}
