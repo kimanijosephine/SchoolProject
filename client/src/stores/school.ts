@@ -8,6 +8,8 @@ export const useSchoolStore = defineStore('school', {
     students: [] as Student[],
     dashboardStats: {
       total_students: 0,
+      active_courses: 0, // Added to match backend
+      pending_fees: 0, // Added to match backend
       studentsPerYear: {} as Record<string, number>,
     },
     isLoading: false,
@@ -15,7 +17,7 @@ export const useSchoolStore = defineStore('school', {
   }),
 
   actions: {
-    // Helper to ensure headers are set (redundancy check)
+    // Helper to ensure headers (useful if axios interceptor isn't catching it)
     getHeaders() {
       const authStore = useAuthStore()
       return {
@@ -38,8 +40,10 @@ export const useSchoolStore = defineStore('school', {
     async fetchStudents(year?: number) {
       this.isLoading = true
       try {
-        const params = year ? { year } : {}
-        const response = await axios.get(`/school/students`, { params })
+        // Correctly pass the 'year' query param
+        const response = await axios.get(`/school/students`, {
+          params: { year },
+        })
         this.students = response.data
       } catch (error) {
         this.error = error instanceof Error ? error.message : String(error)
@@ -48,24 +52,21 @@ export const useSchoolStore = defineStore('school', {
       }
     },
 
-    // Handles CSV/Excel Uploads
     async uploadData(file: File, type: 'students' | 'marks') {
       this.isLoading = true
       const formData = new FormData()
       formData.append('file', file)
-      formData.append('type', type) // Inform backend what kind of upload this is
 
       try {
         await axios.post(`/school/upload/${type}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
-            ...this.getHeaders().headers,
           },
         })
-        await this.fetchStudents() // Refresh list after upload
+        await this.fetchStudents()
         return { success: true, message: 'File uploaded successfully' }
       } catch (error) {
-        return { success: false, message: error instanceof Error ? error.message : 'Upload failed' }
+        this.error = error instanceof Error ? error.message : String(error)
       } finally {
         this.isLoading = false
       }
@@ -73,22 +74,27 @@ export const useSchoolStore = defineStore('school', {
 
     async updateStudentStatus(id: number, status: 'suspended' | 'expelled' | 'active') {
       try {
-        await axios.patch(`/students/${id}/status`, { status })
-        // Optimistically update the UI
+        // URL Updated to match the /school/students/... prefix in routes
+        await axios.patch(`/school/students/${id}/status`, { status })
+
+        // Optimistically update the UI list
         const student = this.students.find((s) => s.id === id)
         if (student) student.status = status
       } catch (error) {
-        this.error = error instanceof Error ? error.message : String(error)
+        console.error('Status update failed', error)
       }
     },
 
     async resetStudentMarks(id: number) {
-      if (!confirm('Are you sure? This cannot be undone.')) return
+      if (!confirm('Are you sure? This will clear all marks for this student.')) return
       try {
-        await axios.delete(`/students/${id}/marks`)
+        // Updated URL to keep the /school prefix consistency
+        await axios.delete(`/school/students/${id}/marks`)
+
+        // Refresh the list or show success message
         await this.fetchStudents()
       } catch (err) {
-        console.error(err)
+        console.error('Failed to reset marks', err)
       }
     },
   },
