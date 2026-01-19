@@ -24,6 +24,9 @@ Route::post('/logout', [LoginController::class, 'logout']);
 // Protected routes for schools
 Route::middleware('auth:school')->group(function () {
     Route::post('/school/upload/{type}', [StudentImportController::class, 'import']);
-    Route::get('/school/dashboard-stats',[SchoolController::class, 'getDashboardStats']);
+    Route::get('/school/dashboard-stats', [SchoolController::class, 'getDashboardStats']);
     Route::get('/school/students', [SchoolController::class, 'getStudents']);
+
+    // Add this to handle the Suspend/Expel buttons
+    Route::patch('/school/students/{id}/status', [SchoolController::class, 'updateStatus']);
 });
