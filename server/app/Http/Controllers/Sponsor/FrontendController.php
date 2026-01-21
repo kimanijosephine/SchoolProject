@@ -12,14 +12,12 @@ class FrontendController extends Controller
 {
     public function index()
     {
-        // Use the 'sponsor' guard specifically
         $sponsorId = auth('sponsor')->id();
-        $sponsor = Sponsors::with(['students.school'])->find($sponsorId);
+        $sponsor = Sponsors::with(['students.school_id'])->find($sponsorId);
 
         if (!$sponsor) {
             return response()->json(['message' => 'Sponsor not found'], 404);
         }
-
         // 1. Total Students
         $totalStudents = $sponsor->students->count();
 
