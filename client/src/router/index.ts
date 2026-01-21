@@ -15,6 +15,7 @@ import SponsorDashboard from '@/views/SponsorDashboard.vue'
 import StudentView from '@/views/SponsorView/StudentView.vue'
 import PerformanceView from '@/views/SponsorView/PerformanceView.vue'
 import WalletView from '@/views/SponsorView/WalletView.vue'
+import Home from "../views/HomeView.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -99,6 +100,12 @@ const router = createRouter({
       component: WalletView,
       meta: { requiresAuth: true, role: 'sponsor' },
     },
+  //home page
+  {
+    path: "/",
+    name: "Home",
+    component: Home,
+  },
 
     // testing route
     {
