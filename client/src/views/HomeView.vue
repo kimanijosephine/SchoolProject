@@ -9,11 +9,13 @@ const logout = () => {
 </script>
 
 <template>
-<div>
-  <HeaderComponent/>
-  <FooterComponent/>
-
-</div>
+  <div>
+    <HeaderComponent />
+    <button @click="logout" class="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+      Logout
+    </button>
+    <FooterComponent />
+  </div>
 </template>
 
 <style scoped>
@@ -34,4 +36,3 @@ const logout = () => {
   margin: auto;
 }
 </style>
-
