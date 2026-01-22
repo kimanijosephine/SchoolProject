@@ -1,40 +1,60 @@
 <template>
   <SponsorLayout>
     <div class="p-6">
-      <h1 class="text-3xl font-bold mb-4">Sponsor Dashboard</h1>
+      <header class="mb-8">
+        <h2 class="text-3xl font-bold text-gray-800">Sponsor Dashboard</h2>
+        <p class="text-gray-600">Welcome back, {{ store.dashboardStats.company_name }}</p>
+      </header>
 
-      <div v-if="store.isLoading" class="text-blue-500 text-lg">
-        Loading dashboard data...
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+          <h3 class="text-sm font-semibold text-gray-400 uppercase mb-2">Total Sponsored</h3>
+          <p class="text-4xl font-bold text-blue-600">{{ store.dashboardStats.total_students }}</p>
+          <span class="text-xs text-gray-500">Active Students</span>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+          <h3 class="text-sm font-semibold text-gray-400 uppercase mb-2">Total Budget</h3>
+          <p class="text-4xl font-bold text-green-600">
+            ${{ Number(store.dashboardStats.total_budget).toLocaleString() }}
+          </p>
+          <span class="text-xs text-gray-500">Allocated Funds</span>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+          <h3 class="text-sm font-semibold text-gray-400 uppercase mb-2">Partner Schools</h3>
+          <p class="text-4xl font-bold text-purple-600">
+            {{ Object.keys(store.dashboardStats.school_breakdown || {}).length }}
+          </p>
+          <span class="text-xs text-gray-500">Institutions Supported</span>
+        </div>
       </div>
 
-      <div v-else-if="store.error" class="text-red-500 mb-4">
-        {{ store.error }}
-      </div>
-
-      <div v-else>
-        <p class="mb-6">Welcome to your dashboard! Here you can manage your sponsorships.</p>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div class="bg-white p-4 rounded-lg shadow border">
-            <h2 class="text-gray-500 text-sm font-semibold uppercase">Total Students</h2>
-            <p class="text-2xl font-bold">{{ store.dashboardStats.total_students }}</p>
-          </div>
-
-          <div class="bg-white p-4 rounded-lg shadow border">
-            <h2 class="text-gray-500 text-sm font-semibold uppercase">Wallet Balance</h2>
-            <p class="text-2xl font-bold text-green-600">
-              ${{ store.dashboardStats.wallet_balance || 0 }}
-            </p>
+      <div class="grid grid-cols-1 lg:grid-cols-2 py-4 gap-8">
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+          <h3 class="text-xl font-bold mb-4 text-gray-700">Academic Progression</h3>
+          <div class="space-y-3">
+            <div v-for="(count, year) in store.dashboardStats.studentsPerYear" :key="year"
+              class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+              <span class="font-medium text-gray-600">Year {{ year }}</span>
+              <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full font-bold text-sm">
+                {{ count }} Students
+              </span>
+            </div>
           </div>
         </div>
 
-        <div class="mt-8">
-          <h3 class="text-xl font-semibold mb-2">Students Per Year</h3>
-          <ul class="list-disc pl-5">
-            <li v-for="(count, year) in store.dashboardStats.studentsPerYear" :key="year">
-              Year {{ year }}: {{ count }} students
-            </li>
-          </ul>
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+          <h3 class="text-xl font-bold mb-4 text-gray-700">Institutional Distribution</h3>
+          <div class="space-y-3">
+            <div v-for="(count, school) in store.dashboardStats.school_breakdown" :key="school"
+              class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+              <span class="font-medium text-gray-600">{{ school }}</span>
+              <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full font-bold text-sm">
+                {{ count }}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
