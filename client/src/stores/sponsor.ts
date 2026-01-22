@@ -8,6 +8,9 @@ export const useSponsorStore = defineStore('sponsor', {
     dashboardStats: {
       total_students: 0,
       studentsPerYear: {},
+      school_breakdown: {}, // Initialize as empty object
+      company_name: '',      // Initialize as empty string
+      total_budget: 0,      // Initialize
       wallet_balance: 0
     } as DashboardStats,
     isLoading: false,
