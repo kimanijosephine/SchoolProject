@@ -28,6 +28,7 @@ export interface Student {
   id: number
   name: string
   registration_number: string
+  company_name: string
   course_id: string
   year_of_study: number
   class_year: number
@@ -48,4 +49,7 @@ export interface DashboardStats {
   total_students: number
   studentsPerYear: Record<string, number>
   wallet_balance?: number // Added based on your description
+  school_breakdown: Record<string, number>; // New
+  company_name: string;                     // New
+  total_budget: number | string;
 }
