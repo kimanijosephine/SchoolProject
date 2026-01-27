@@ -1,8 +1,49 @@
 <template lang="html">
-  <nav class="w-3xl max-w-full  p-5 flex justify-between items-center">
+
+  <nav className="sticky top-0 z-50 bg-white shadow-sm  w-full mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-20">
+            <div className="flex items-center gap-2">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg flex items-center justify-center">
+                <span className="text-white font-bold text-lg">E</span>
+              </div>
+              <span className="text-2xl font-bold text-blue-600">EDU</span>
+            </div>
+
+            <div className="hidden md:flex items-center gap-8">
+              <button className="text-gray-600 hover:text-blue-600 font-medium">About</button>
+              <button className="text-gray-600 hover:text-blue-600 font-medium">Features</button>
+              <button className="text-gray-600 hover:text-blue-600 font-medium">Contact</button>
+            </div>
+
+            <div class="relative inline-block">
+              <!-- Toggle button -->
+              <button @click="toggleLogin" class="px-6 py-2.5 text-blue-600 border-blue-600 border  font-semibold hover:bg-blue-50 rounded-full transition">
+                Login
+              </button>
+              <div v-if="openLogin" class="absolute mt-2 w-36 right-1 bg-white  rounded shadow-xl p-3">
+                <RouterLink v-for="link in loginLinks" :key="link.link" :to="link.link" class="block px-4 py-2 hover:bg-gray-100" @click="openLogin = false">{{ link.title }}</RouterLink>
+              </div>
+            </div>
+
+
+          
+
+            <!-- <div className="flex gap-3">
+              <button className="px-6 py-2.5 text-blue-600 font-semibold hover:bg-blue-50 rounded-lg transition">
+                Login
+              </button>
+              <button className="px-6 py-2.5 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition shadow-lg shadow-blue-600/30">
+                Register
+              </button>
+            </div> -->
+          </div>
+        </div>
+      </nav>
+  <!-- <nav class="w-3xl max-w-full  p-5 flex justify-between items-center">
     <a href="/" class="text-blue-500 font-bold">EDU</a>
     <div>
-        <!-- Login dropdown -->
+         Login dropdown 
         <button>Login</button>
         <div>
             <router-link to="/donor-auth">As a Donor</router-link>
@@ -10,7 +51,7 @@
             <router-link to="/student-auth">As a Student</router-link>
         </div>
 
-        <!-- Register dropdown -->
+         Register dropdown 
         <button>Register</button>
         <div>
             <router-link to="/donor-auth">As a Donor</router-link>
@@ -18,7 +59,7 @@
             <router-link to="/student-auth">As a Student</router-link>
         </div>
     </div>
-  </nav>
+  </nav> -->
   <!-- <div class="page-wrapper">
   <header class="header">
     <div class="logo">
@@ -78,7 +119,49 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from "vue"
 
+const openRegister = ref(false)
+const openLogin = ref(false)
+
+const toggleRegister = () => {
+    openRegister.value = !openRegister.value
+}
+
+const toggleLogin = () => {
+    openLogin.value = !openLogin.value
+}
+
+
+const registerLinks = [
+    {
+        title: "As a Donor",
+        link: "/donor-auth"
+    },
+    {
+        title: "As a School",
+        link: "/school-auth"
+    },
+    {
+        title: "As a Student",
+        link: "/student-auth"
+    }
+]
+
+const loginLinks = [
+    {
+        title: "As a Donor",
+        link: "/donor-auth"
+    },
+    {
+        title: "As a School",
+        link: "/school-auth"
+    },
+    {
+        title: "As a Student",
+        link: "/student-auth"
+    }
+]
 </script>
 
 <style scoped>
