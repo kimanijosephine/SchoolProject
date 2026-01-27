@@ -1,8 +1,8 @@
 <template lang="html">
     <div>
-        <h2>Why EDU?</h2>
+        <h2>Traditional Systems are Inneficient</h2>
 
-        <p>Education management is often hindered by opacity and outdated processes. We’ve rebuilt the system from the ground up to ensure every dollar is accounted for and every student is supported.</p>
+        <p>The Education industry is often hindered by mis-management, opacity and outdated processes. We’ve rebuilt the system from the ground up to ensure every dollar is accounted for and every student is supported.</p>
     </div>
     <div>
         <h2>Our Pillars</h2>
