@@ -14,15 +14,15 @@ const logout = () => {
 </script>
 
 <template >
-  <div class="p-4 bg-gray-100 text-black ">
+  <div class=" bg-gray-100 text-black min-h-screen items-center">
     <HeaderComponent />
     <HeroSectionComponent />
     <ProblemStatementComponent />
     <TargetAudienceComponent />
     <OurMissionComponent />
-    <button @click="logout" class="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+    <!-- <button @click="logout" class="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
       Logout
-    </button>
+    </button> -->
     <FooterComponent />
   </div>
 </template>
