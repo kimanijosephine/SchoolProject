@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('students', function (Blueprint $table) {
-        // Default to true because they are pre-registered
-        $table->boolean('is_first_login')->default(true)->after('status');
-    });
+            // Default to true because they are pre-registered
+            $table->boolean('is_first_login')->default(true)->after('status');
+        });
     }
 
     /**

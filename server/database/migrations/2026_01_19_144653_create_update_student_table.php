@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::table('students', function (Blueprint $table) {
             $table->unsignedBigInteger('sponsor_id')->after('school_id')->nullable();
             // If you want a foreign key: //
-           // $table->foreign('sponsor_id')->references('id')->on('sponsors')->onDelete('cascade');
+            // $table->foreign('sponsor_id')->references('id')->on('sponsors')->onDelete('cascade');
         });
     }
 

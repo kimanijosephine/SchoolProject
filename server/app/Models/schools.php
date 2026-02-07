@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
-use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
 class Schools extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
-    protected $fillable = [ 'name', 'email', 'password'];
+    protected $fillable = ['name', 'email', 'password'];
+
     protected $hidded = ['password'];
 
     /**
@@ -27,12 +28,13 @@ class Schools extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [
-            'role' => 'school' // This helps identify the user type in Vue
+            'role' => 'school', // This helps identify the user type in Vue
         ];
     }
 
     // create relationship with students
-    public function students(){
+    public function students()
+    {
         return $this->hasMany(Students::class, 'school_id', 'id');
     }
 }
