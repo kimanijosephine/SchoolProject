@@ -1,13 +1,14 @@
 <?php
+
 namespace App\Http\Controllers\Auth;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Notifications\FirstLoginResetPassword;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
-use App\Notifications\FirstLoginResetPassword;
-use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -34,27 +35,27 @@ class LoginController extends Controller
         }
         $user = Auth::guard($role)->user();
 
-    // Logic for First Time Student Login
-    if ($role === 'student' && $user->is_first_login) {
-        // 1. Generate a password reset token
-        $resetToken = Password::getRepository()->create($user);
+        // Logic for First Time Student Login
+        if ($role === 'student' && $user->is_first_login) {
+            // 1. Generate a password reset token
+            $resetToken = Password::getRepository()->create($user);
 
-        // 2. Send the custom notification
-        $user->notify(new FirstLoginResetPassword($resetToken));
+            // 2. Send the custom notification
+            $user->notify(new FirstLoginResetPassword($resetToken));
 
-        $user->save();
+            $user->save();
 
-        return response()->json([
-            'message' => 'First login detected. A password reset link has been sent to your email.',
-            'first_login' => true,
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'user' => $user,
-            'role' => $role
-        ]);
-    }
+            return response()->json([
+                'message' => 'First login detected. A password reset link has been sent to your email.',
+                'first_login' => true,
+                'access_token' => $token,
+                'token_type' => 'bearer',
+                'user' => $user,
+                'role' => $role,
+            ]);
+        }
 
-    return $this->respondWithToken($token, $role);
+        return $this->respondWithToken($token, $role);
     }
 
     protected function respondWithToken($token, $role)
@@ -66,9 +67,9 @@ class LoginController extends Controller
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => Auth::guard($role)->factory()->getTTL() * 60,
-            'user' =>$user,
-            //'user' => Auth::guard($role)->user(),
-            'role' => $role
+            'user' => $user,
+            // 'user' => Auth::guard($role)->user(),
+            'role' => $role,
         ]);
     }
 
@@ -78,6 +79,7 @@ class LoginController extends Controller
         if ($role) {
             Auth::guard($role)->logout();
         }
+
         return response()->json(['message' => 'Successfully logged out']);
     }
 

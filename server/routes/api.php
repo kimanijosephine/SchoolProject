@@ -1,16 +1,16 @@
 <?php
-use App\Http\Controllers\School\SchoolController;
-use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\School\SchoolController;
 use App\Http\Controllers\School\StudentImportController;
 use App\Http\Controllers\Sponsor\FrontendController;
 use App\Http\Controllers\Sponsor\WalletController;
+use Illuminate\Support\Facades\Route;
 
-Route::get('/status', function(){
-    return response()->json(['status'=>'ok']);
+Route::get('/status', function () {
+    return response()->json(['status' => 'ok']);
 });
-
 
 // AUthentication routes
 Route::post('/login', [LoginController::class, 'login']);
@@ -29,7 +29,7 @@ Route::middleware('auth:school')->group(function () {
     Route::delete('/school/students/{id}/marks', [SchoolController::class, 'resetMarks']);
 });
 Route::middleware('auth:sponsor')->group(function () {
-    Route::get('/sponsor-portal',[FrontendController::class, 'index']);
-    Route::get('/sponsor/my-students',[FrontendController::class, 'myStudents']);
+    Route::get('/sponsor-portal', [FrontendController::class, 'index']);
+    Route::get('/sponsor/my-students', [FrontendController::class, 'myStudents']);
     Route::get('/sponsor/my-wallet', [WalletController::class, 'index']);
 });

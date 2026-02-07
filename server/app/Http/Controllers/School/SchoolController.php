@@ -4,7 +4,8 @@ namespace App\Http\Controllers\School;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Students; // Using your plural model name
+
+// Using your plural model name
 
 class SchoolController extends Controller
 {
@@ -19,13 +20,13 @@ class SchoolController extends Controller
             'active_courses' => $school->students()->distinct('course_id')->count('course_id'),
 
             // Example for pending fees (assumes you have a column for this)
-            'pending_fees'   => 0,
+            'pending_fees' => 0,
 
             // Gets counts grouped by the class_year column
             'studentsPerYear' => $school->students()
                 ->selectRaw('class_year, count(*) as count')
                 ->groupBy('class_year')
-                ->pluck('count', 'class_year')
+                ->pluck('count', 'class_year'),
         ]);
     }
 
@@ -53,7 +54,7 @@ class SchoolController extends Controller
 
         $student = $school->students()->findOrFail($id);
         $student->update([
-            'status' => $request->status
+            'status' => $request->status,
         ]);
 
         return response()->json(['message' => 'Status updated successfully']);
@@ -61,12 +62,12 @@ class SchoolController extends Controller
 
     public function resetMarks($id)
     {
-    $school = auth()->user();
-    $student = $school->students()->findOrFail($id);
+        $school = auth()->user();
+        $student = $school->students()->findOrFail($id);
 
-    // Logic to clear marks (e.g., if you have a marks table)
-    // $student->marks()->delete();
+        // Logic to clear marks (e.g., if you have a marks table)
+        // $student->marks()->delete();
 
-    return response()->json(['message' => 'Marks reset successfully']);
+        return response()->json(['message' => 'Marks reset successfully']);
     }
 }
