@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
-use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
 
 class Sponsors extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
     protected $fillable = ['company_name', 'email', 'password'];
+
     protected $hidded = ['password'];
 
     /**
@@ -27,7 +28,7 @@ class Sponsors extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [
-            'role' => 'sponsor' // This helps identify the user type in Vue
+            'role' => 'sponsor', // This helps identify the user type in Vue
         ];
     }
 

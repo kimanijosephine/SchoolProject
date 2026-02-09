@@ -2,6 +2,11 @@
 import { useAuthStore } from '@/stores/auth';
 import FooterComponent from '@/components/homePage/FooterComponent.vue';
 import HeaderComponent from '@/components/homePage/HeaderComponent.vue';
+import HeroSectionComponent from '@/components/homePage/HeroSectionComponent.vue';
+import TargetAudienceComponent from '@/components/homePage/TargetAudience.vue';
+import ProblemStatementComponent from '@/components/homePage/ProblemStatementComponent.vue';
+import OurMissionComponent from '@/components/homePage/OurMissionComponent.vue';
+
 const authStore = useAuthStore();
 const logout = () => {
   authStore.logout();
@@ -9,30 +14,17 @@ const logout = () => {
 </script>
 
 <template>
-  <div>
+  <div class=" bg-gray-100 text-black min-h-screen items-center">
     <HeaderComponent />
-    <button @click="logout" class="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+    <HeroSectionComponent />
+    <ProblemStatementComponent />
+    <TargetAudienceComponent />
+    <OurMissionComponent />
+    <!-- <button @click="logout" class="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
       Logout
-    </button>
+    </button> -->
     <FooterComponent />
   </div>
 </template>
 
-<style scoped>
-.home {
-  padding: 80px 20px;
-  text-align: center;
-}
-
-.home h1 {
-  font-size: 2.4rem;
-  margin-bottom: 15px;
-}
-
-.home p {
-  font-size: 1.1rem;
-  color: #555;
-  max-width: 600px;
-  margin: auto;
-}
-</style>
+<style scoped></style>

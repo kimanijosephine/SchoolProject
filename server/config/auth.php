@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\School;
 use App\Models\Schools;
 use App\Models\Sponsors;
 use App\Models\Students;
@@ -41,7 +40,7 @@ return [
     */
 
     'guards' => [
-    // Keep the web guard for system tools, but your API uses these:
+        // Keep the web guard for system tools, but your API uses these:
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
@@ -61,7 +60,7 @@ return [
             'driver' => 'jwt',
             'provider' => 'sponsors',
         ],
-],
+    ],
 
     /*
     |--------------------------------------------------------------------------
