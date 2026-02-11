@@ -32,7 +32,6 @@ export default {
 
 <style scoped>
 .site-footer {
- 
   padding: 60px 10%;
   background: linear-gradient(to bottom, #000000, #0f172a); /* Fades from pure black to deep navy */
   border-top: 1px solid rgba(255, 255, 255, 0.05);

@@ -14,7 +14,7 @@
         Welcome to the future of education payments.</p>
         <span class="sparkle">====</span>    
      </div>
-        <router-link to="/login" class="card-btn">Enter Portal</router-link> 
+        <router-link to=".../StudentLogin" class="card-btn">Enter Portal</router-link> 
   </header>
 
   <main class="main-body">
@@ -25,9 +25,9 @@
           <span class="card-iron">===</span>
           <h2>Why choose Online Fees Payment?</h2>
         </div>
-        <p class="card-tagline">Effeciency at your fingertips</p>
+        <p class="card-tagline">Efficiency at your fingertips</p>
         <ul class="clean-list">
-          <li><strong>Instant Clearance:</strong>No more waiting for bank slips to preocess. </li>
+          <li><strong>Instant Clearance:</strong>No more waiting for bank slips to process. </li>
           <li><strong>Bank-Level Security:</strong>Your data is encrypted and safe</li>
           <li><strong>Total Transparency:</strong>Access your full payment history 24/7 </li>
         </ul>
