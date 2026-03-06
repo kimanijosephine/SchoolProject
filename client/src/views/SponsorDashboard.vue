@@ -1,9 +1,9 @@
 <template>
   <SponsorLayout>
     <div class="p-6">
-      <header class="mb-8">
+      <header class="pb-4">
         <h2 class="text-3xl font-bold text-gray-800">Sponsor Dashboard</h2>
-        <p class="text-gray-600">Welcome back, {{ store.dashboardStats.company_name }}</p>
+        <p class="pt-2 text-gray-600">Welcome back, {{ store.dashboardStats.company_name }}</p>
       </header>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -16,7 +16,7 @@
         <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
           <h3 class="text-sm font-semibold text-gray-400 uppercase mb-2">Total Budget</h3>
           <p class="text-4xl font-bold text-green-600">
-            ${{ Number(store.dashboardStats.total_budget).toLocaleString() }}
+            Ksh {{ Number(store.dashboardStats.total_budget).toLocaleString() }}
           </p>
           <span class="text-xs text-gray-500">Allocated Funds</span>
         </div>

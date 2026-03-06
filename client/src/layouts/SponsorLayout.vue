@@ -130,7 +130,7 @@ import { useRoute, RouterLink } from 'vue-router';
 import {
   Bars3Icon, ChevronDoubleLeftIcon, HomeIcon, UsersIcon,
   BellIcon, UserCircleIcon, ArrowRightStartOnRectangleIcon,
-  ChartBarSquareIcon, WalletIcon
+  ChartBarSquareIcon,
 } from '@heroicons/vue/24/outline';
 
 const route = useRoute();
@@ -145,7 +145,6 @@ const navItems = [
   { name: 'Dashboard', icon: HomeIcon, path: '/sponsor-portal' },
   { name: 'My Students', icon: UsersIcon, path: '/my-students' },
   { name: 'Performance', icon: ChartBarSquareIcon, path: '/performance' },
-  { name: 'Wallet', icon: WalletIcon, path: '/my-wallet' },
 ];
 
 const navClass = "flex items-center gap-4 p-4 rounded-[1.5rem] transition-all duration-300 group relative";
